@@ -1,1 +1,885 @@
-Patricio Gabriel Maseda
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patricio Gabriel Maseda</title>
+  <meta name="description" content="Portfolio of Patricio Gabriel Maseda, product-minded senior software engineer building practical software for products, teams, automation, and AI-enabled workflows.">
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --surface: #ffffff;
+      --ink: #182032;
+      --muted: #657083;
+      --line: #dce2ea;
+      --accent: #176b87;
+      --accent-2: #d45d45;
+      --soft: #eef5f7;
+      --shadow: 0 20px 55px rgba(24, 32, 50, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      cursor: pointer;
+    }
+
+    .wrap {
+      width: min(1080px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(220, 226, 234, 0.8);
+      background: rgba(247, 248, 251, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .lang-switch button {
+      min-width: 34px;
+      min-height: 28px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .lang-switch button[aria-pressed="true"] {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      align-items: center;
+      gap: 48px;
+      min-height: calc(100vh - 64px);
+      padding: 76px 0 88px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 670px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2.4vw, 22px);
+      line-height: 1.45;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 750;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .portrait {
+      position: relative;
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .portrait img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .portrait::before {
+      content: none;
+    }
+
+    section {
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      max-width: 460px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 1px 0 rgba(24, 32, 50, 0.04);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .year {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .experience-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .experience-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .experience-item:first-child {
+      border-top: 1px solid var(--line);
+    }
+
+    .experience-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .company-logo {
+      position: relative;
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      line-height: 1;
+      overflow: hidden;
+    }
+
+    .company-logo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      padding: 9px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .company-logo.dark img {
+      background: var(--ink);
+    }
+
+    .experience-item h3 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .experience-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .experience-date {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .about-panel {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .about-panel p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .about-panel p + p {
+      margin-top: 14px;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .skill {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .contact h2 {
+      color: #fff;
+    }
+
+    .contact p {
+      max-width: 620px;
+      margin: 12px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .contact .btn {
+      background: #fff;
+      color: var(--ink);
+      border-color: #fff;
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      font-weight: 700;
+    }
+
+    .footer-links a:hover {
+      color: var(--ink);
+    }
+
+    .built-with {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .about,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 52px;
+      }
+
+      .portrait {
+        min-height: 320px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-note {
+        margin-top: 10px;
+      }
+
+      .experience-item {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .wrap {
+        width: min(100% - 28px, 1080px);
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .actions,
+      .contact {
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Patricio Gabriel Maseda home">
+        <span class="mark">PM</span>
+        <span>Patricio Gabriel Maseda</span>
+      </a>
+      <div class="nav-links">
+        <a href="#work" data-i18n="nav.work">Work</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="es" aria-pressed="false">ES</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow" data-i18n="hero.eyebrow">Product-minded senior software engineer</p>
+        <h1 data-i18n="hero.title">I turn product ideas and team workflows into useful software.</h1>
+        <p class="lead" data-i18n="hero.lead">
+          I work across interfaces, internal tools, automation, and AI-assisted processes, with attention to product feel, maintainable code, and everyday usability.
+        </p>
+        <div class="actions">
+          <a class="btn" href="#work" data-i18n="hero.viewWork">View work</a>
+          <button class="btn secondary" type="button" data-contact-trigger data-i18n="hero.contact">Get in touch</button>
+        </div>
+      </div>
+      <div class="portrait" aria-label="Portrait of Patricio Gabriel Maseda">
+        <img src="pmaseda.jpg" alt="Patricio Gabriel Maseda">
+      </div>
+    </div>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="work.title">Selected work</h2>
+          <p class="section-note" data-i18n="work.note">Frontend and full-stack work across ecommerce, media, healthcare, hospitality, internal tools, and monitoring-heavy production systems.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="card-top">
+              <span class="tag" data-i18n="work.card1.tag">Product engineering</span>
+              <span class="year" data-i18n="work.recent">Recent</span>
+            </div>
+            <h3 data-i18n="work.card1.title">Operational control systems</h3>
+            <p data-i18n="work.card1.body">Built interfaces and workflows for managing connected operational devices, with attention to reliability, monitoring, and day-to-day usability for internal teams.</p>
+          </article>
+          <article class="card">
+            <div class="card-top">
+              <span class="tag" data-i18n="work.card2.tag">Frontend</span>
+              <span class="year" data-i18n="work.recent">Recent</span>
+            </div>
+            <h3 data-i18n="work.card2.title">User workflow applications</h3>
+            <p data-i18n="work.card2.body">Developed web applications for guided user journeys, data capture, and follow-up workflows, turning complex interactions into clear product experiences.</p>
+          </article>
+          <article class="card">
+            <div class="card-top">
+              <span class="tag" data-i18n="work.card3.tag">Web platforms</span>
+              <span class="year" data-i18n="work.ongoing">Ongoing</span>
+            </div>
+            <h3 data-i18n="work.card3.title">Content and commerce platforms</h3>
+            <p data-i18n="work.card3.body">Worked on public-facing platforms where performance, content structure, analytics, and polished interfaces matter for both users and business teams.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="experience.title">Experience</h2>
+          <p class="section-note" data-i18n="experience.note">A career focused on frontend architecture, product delivery, performance, monitoring, and full-stack collaboration.</p>
+        </div>
+        <div class="experience-list">
+          <article class="experience-item">
+            <div class="experience-main">
+              <span class="company-logo dark" aria-hidden="true">
+                <span>UT</span>
+                <img src="assets/logos/utility.svg" alt="">
+              </span>
+              <div>
+                <h3 data-i18n="experience.utility.role">Senior Software Engineer</h3>
+                <p>Utility</p>
+              </div>
+            </div>
+            <span class="experience-date" data-i18n="experience.utility.date">2023-present</span>
+          </article>
+          <article class="experience-item">
+            <div class="experience-main">
+              <span class="company-logo" aria-hidden="true">
+                <span>MJ</span>
+                <img src="assets/logos/mejuri.svg" alt="">
+              </span>
+              <div>
+                <h3 data-i18n="experience.mejuri.role">Senior Software Engineer II</h3>
+                <p>Mejuri</p>
+              </div>
+            </div>
+            <span class="experience-date">2019-2023</span>
+          </article>
+          <article class="experience-item">
+            <div class="experience-main">
+              <span class="company-logo" aria-hidden="true">
+                <span>SD</span>
+                <img src="assets/logos/spark-digital.png" alt="">
+              </span>
+              <div>
+                <h3 data-i18n="experience.spark.role">Senior Software Engineer</h3>
+                <p>Spark Digital</p>
+              </div>
+            </div>
+            <span class="experience-date">2014-2019</span>
+          </article>
+          <article class="experience-item">
+            <div class="experience-main">
+              <span class="company-logo" aria-hidden="true">
+                <span>AV</span>
+                <img src="assets/logos/avalith.png" alt="">
+              </span>
+              <div>
+                <h3 data-i18n="experience.avalith.role">PHP Backend Software Engineer</h3>
+                <p>Avalith</p>
+              </div>
+            </div>
+            <span class="experience-date">2012-2014</span>
+          </article>
+          <article class="experience-item">
+            <div class="experience-main">
+              <span class="company-logo dark" aria-hidden="true">
+                <span>UTN</span>
+                <img src="assets/logos/utn.svg" alt="">
+              </span>
+              <div>
+                <h3 data-i18n="experience.education.role">Técnico Superior en Programación</h3>
+                <p>Universidad Tecnológica Nacional</p>
+              </div>
+            </div>
+            <span class="experience-date">2008-2012</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap about">
+        <div>
+          <p class="eyebrow" data-i18n="about.eyebrow">About</p>
+          <h2 data-i18n="about.title">I like software that gets out of the way.</h2>
+        </div>
+        <div class="about-panel">
+          <p data-i18n="about.body1">
+            I work across product, frontend, and implementation details, with a bias toward tools that are clear, fast, and easy to maintain.
+            I have been building software since 2011, working across frontend architecture, backend services, product delivery, monitoring, hiring, and team collaboration.
+          </p>
+          <p data-i18n="about.body2">
+            My current approach is AI-assisted by default: I use modern development tools to shorten feedback loops, refine processes, and move from idea to working software as quickly as possible.
+          </p>
+          <div class="skills" aria-label="Skills" data-i18n-attr="aria-label:skills.label">
+            <span class="skill">React</span>
+            <span class="skill">Next.js</span>
+            <span class="skill">Node.js</span>
+            <span class="skill">AWS</span>
+            <span class="skill" data-i18n="skills.monitoring">Monitoring</span>
+            <span class="skill" data-i18n="skills.productEngineering">Product engineering</span>
+            <span class="skill" data-i18n="skills.frontendArchitecture">Frontend architecture</span>
+            <span class="skill" data-i18n="skills.aiWorkflows">AI workflows</span>
+            <span class="skill" data-i18n="skills.teamCollaboration">Team collaboration</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="contact">
+          <div>
+            <h2 data-i18n="contact.title">Have something useful to build?</h2>
+            <p data-i18n="contact.body">Reach out about product ideas, internal tools, automation, AI-enabled workflows, or practical software for real users.</p>
+          </div>
+          <button class="btn" type="button" data-contact-trigger data-i18n="contact.email">Email me</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <span>© 2026 Patricio Gabriel Maseda</span>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/patricio-gabriel-maseda-1424b845" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/patriciomase?tab=repositories" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+      <div class="built-with" data-i18n="footer.builtWith">Proudly built with Codex and Claude Code.</div>
+    </div>
+  </footer>
+  <script>
+    const translations = {
+      en: {
+        metaDescription: 'Portfolio of Patricio Gabriel Maseda, product-minded senior software engineer building practical software for products, teams, automation, and AI-enabled workflows.',
+        'nav.work': 'Work',
+        'nav.experience': 'Experience',
+        'nav.about': 'About',
+        'nav.contact': 'Contact',
+        'hero.eyebrow': 'Product-minded senior software engineer',
+        'hero.title': 'I turn product ideas and team workflows into useful software.',
+        'hero.lead': 'I work across interfaces, internal tools, automation, and AI-assisted processes, with attention to product feel, maintainable code, and everyday usability.',
+        'hero.viewWork': 'View work',
+        'hero.contact': 'Get in touch',
+        'work.title': 'Selected work',
+        'work.note': 'Frontend and full-stack work across ecommerce, media, healthcare, hospitality, internal tools, and monitoring-heavy production systems.',
+        'work.recent': 'Recent',
+        'work.ongoing': 'Ongoing',
+        'work.card1.tag': 'Product engineering',
+        'work.card1.title': 'Operational control systems',
+        'work.card1.body': 'Built interfaces and workflows for managing connected operational devices, with attention to reliability, monitoring, and day-to-day usability for internal teams.',
+        'work.card2.tag': 'Frontend',
+        'work.card2.title': 'User workflow applications',
+        'work.card2.body': 'Developed web applications for guided user journeys, data capture, and follow-up workflows, turning complex interactions into clear product experiences.',
+        'work.card3.tag': 'Web platforms',
+        'work.card3.title': 'Content and commerce platforms',
+        'work.card3.body': 'Worked on public-facing platforms where performance, content structure, analytics, and polished interfaces matter for both users and business teams.',
+        'experience.title': 'Experience',
+        'experience.note': 'A career focused on frontend architecture, product delivery, performance, monitoring, and full-stack collaboration.',
+        'experience.utility.role': 'Senior Software Engineer',
+        'experience.utility.date': '2023-present',
+        'experience.mejuri.role': 'Senior Software Engineer II',
+        'experience.spark.role': 'Senior Software Engineer',
+        'experience.avalith.role': 'PHP Backend Software Engineer',
+        'experience.education.role': 'Técnico Superior en Programación',
+        'about.eyebrow': 'About',
+        'about.title': 'I like software that gets out of the way.',
+        'about.body1': 'I work across product, frontend, and implementation details, with a bias toward tools that are clear, fast, and easy to maintain. I have been building software since 2011, working across frontend architecture, backend services, product delivery, monitoring, hiring, and team collaboration.',
+        'about.body2': 'My current approach is AI-assisted by default: I use modern development tools to shorten feedback loops, refine processes, and move from idea to working software as quickly as possible.',
+        'skills.label': 'Skills',
+        'skills.monitoring': 'Monitoring',
+        'skills.productEngineering': 'Product engineering',
+        'skills.frontendArchitecture': 'Frontend architecture',
+        'skills.aiWorkflows': 'AI workflows',
+        'skills.teamCollaboration': 'Team collaboration',
+        'contact.title': 'Have something useful to build?',
+        'contact.body': 'Reach out about product ideas, internal tools, automation, AI-enabled workflows, or practical software for real users.',
+        'contact.email': 'Email me',
+        'footer.builtWith': 'Proudly built with Codex and Claude Code.'
+      },
+      es: {
+        metaDescription: 'Portfolio de Patricio Gabriel Maseda, senior software engineer con mentalidad de producto que construye software práctico para productos, equipos, automatización y flujos de trabajo con IA.',
+        'nav.work': 'Trabajo',
+        'nav.experience': 'Experiencia',
+        'nav.about': 'Sobre mí',
+        'nav.contact': 'Contacto',
+        'hero.eyebrow': 'Senior software engineer con mentalidad de producto',
+        'hero.title': 'Convierto ideas de producto y procesos de equipo en software útil.',
+        'hero.lead': 'Trabajo en interfaces, herramientas internas, automatización y procesos asistidos por IA, cuidando la experiencia, el código mantenible y la usabilidad diaria.',
+        'hero.viewWork': 'Ver trabajo',
+        'hero.contact': 'Contactarme',
+        'work.title': 'Trabajo seleccionado',
+        'work.note': 'Trabajo frontend y full-stack en ecommerce, medios, salud, hospitality, herramientas internas y sistemas de producción con foco fuerte en monitoreo.',
+        'work.recent': 'Reciente',
+        'work.ongoing': 'Actual',
+        'work.card1.tag': 'Product engineering',
+        'work.card1.title': 'Sistemas de control operativo',
+        'work.card1.body': 'Construí interfaces y flujos para gestionar dispositivos operativos conectados, con foco en confiabilidad, monitoreo y uso diario por equipos internos.',
+        'work.card2.tag': 'Frontend',
+        'work.card2.title': 'Aplicaciones para flujos de usuario',
+        'work.card2.body': 'Desarrollé aplicaciones web para recorridos guiados, captura de datos y flujos de seguimiento, convirtiendo interacciones complejas en experiencias claras.',
+        'work.card3.tag': 'Plataformas web',
+        'work.card3.title': 'Plataformas de contenido y comercio',
+        'work.card3.body': 'Trabajé en plataformas públicas donde el rendimiento, la estructura de contenido, la analítica y las interfaces pulidas importan para usuarios y equipos de negocio.',
+        'experience.title': 'Experiencia',
+        'experience.note': 'Una carrera enfocada en arquitectura frontend, entrega de producto, performance, monitoreo y colaboración full-stack.',
+        'experience.utility.role': 'Senior Software Engineer',
+        'experience.utility.date': '2023-presente',
+        'experience.mejuri.role': 'Senior Software Engineer II',
+        'experience.spark.role': 'Senior Software Engineer',
+        'experience.avalith.role': 'PHP Backend Software Engineer',
+        'experience.education.role': 'Técnico Superior en Programación',
+        'about.eyebrow': 'Sobre mí',
+        'about.title': 'Me gusta el software que no estorba.',
+        'about.body1': 'Trabajo entre producto, frontend e implementación, con una inclinación por herramientas claras, rápidas y fáciles de mantener. Construyo software desde 2011, con experiencia en arquitectura frontend, servicios backend, entrega de producto, monitoreo, hiring y colaboración en equipo.',
+        'about.body2': 'Mi enfoque actual es asistido por IA por defecto: uso herramientas modernas de desarrollo para acortar ciclos de feedback, afinar procesos y pasar de una idea a software funcionando lo más rápido posible.',
+        'skills.label': 'Habilidades',
+        'skills.monitoring': 'Monitoreo',
+        'skills.productEngineering': 'Product engineering',
+        'skills.frontendArchitecture': 'Arquitectura frontend',
+        'skills.aiWorkflows': 'Flujos de trabajo con IA',
+        'skills.teamCollaboration': 'Colaboración en equipo',
+        'contact.title': '¿Tenés algo útil para construir?',
+        'contact.body': 'Contactame por ideas de producto, herramientas internas, automatización, flujos de trabajo con IA o software práctico para usuarios reales.',
+        'contact.email': 'Escribime',
+        'footer.builtWith': 'Hecho con orgullo usando Codex y Claude Code.'
+      }
+    };
+
+    const description = document.querySelector('meta[name="description"]');
+
+    function setLanguage(lang) {
+      const dictionary = translations[lang] || translations.en;
+      document.documentElement.lang = lang;
+      if (description) {
+        description.setAttribute('content', dictionary.metaDescription);
+      }
+
+      for (const element of document.querySelectorAll('[data-i18n]')) {
+        const value = dictionary[element.dataset.i18n];
+        if (value) {
+          element.textContent = value;
+        }
+      }
+
+      for (const element of document.querySelectorAll('[data-i18n-attr]')) {
+        const mappings = element.dataset.i18nAttr.split(',');
+        for (const mapping of mappings) {
+          const [attr, key] = mapping.split(':');
+          const value = dictionary[key];
+          if (attr && value) {
+            element.setAttribute(attr, value);
+          }
+        }
+      }
+
+      for (const button of document.querySelectorAll('[data-lang]')) {
+        button.setAttribute('aria-pressed', String(button.dataset.lang === lang));
+      }
+
+      localStorage.setItem('portfolio-language', lang);
+    }
+
+    for (const button of document.querySelectorAll('[data-lang]')) {
+      button.addEventListener('click', () => setLanguage(button.dataset.lang));
+    }
+
+    const storedLanguage = localStorage.getItem('portfolio-language');
+    const browserLanguage = navigator.language && navigator.language.startsWith('es') ? 'es' : 'en';
+    setLanguage(storedLanguage || browserLanguage);
+
+    const user = 'patricio' + '.mase' + '+ghcontactform';
+    const host = 'gmail' + '.com';
+    const contact = `${user}@${host}`;
+
+    for (const trigger of document.querySelectorAll('[data-contact-trigger]')) {
+      trigger.addEventListener('click', () => {
+        window.location.href = `mailto:${contact}`;
+      });
+    }
+  </script>
+</body>
+</html>
