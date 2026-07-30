@@ -7,10 +7,7 @@
  *
  * Merge note: blog.css styled bare `article`, which is safe when the blog has
  * its own stylesheet but not when it shares one with a homepage whose cards and
- * experience rows are also <article>. Those rules are scoped to `.post-body`.
- *
- * The font stack names Inter first but never loads it, exactly as before; the
- * site is meant to render in the reader's system UI font. */
+ * experience rows are also <article>. Those rules are scoped to `.post-body`. */
 
 :root {
   --bg: #f7f8fb;
@@ -21,7 +18,16 @@
   --accent: #176b87;
   --accent-2: #d45d45;
   --soft: #eef5f7;
+
+  /* Shadow tiers. The original had a single very diffuse shadow used for
+     everything; resting surfaces need something far tighter than a hover. */
+  --shadow-sm: 0 1px 2px rgba(24, 32, 50, 0.04), 0 1px 1px rgba(24, 32, 50, 0.03);
+  --shadow-md: 0 6px 16px rgba(24, 32, 50, 0.07), 0 1px 3px rgba(24, 32, 50, 0.04);
   --shadow: 0 20px 55px rgba(24, 32, 50, 0.08);
+
+  --radius: 10px;
+  --radius-lg: 14px;
+  --ease: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -34,9 +40,20 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* A very soft accent wash at the top of the page, so the first screen has
+     some depth instead of reading as a flat sheet of grey. */
+  background:
+    radial-gradient(78% 46% at 50% 0%, rgba(23, 107, 135, 0.07), transparent 62%),
+    var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
-  font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -49,13 +66,26 @@ a {
   cursor: pointer;
 }
 
+::selection {
+  background: rgba(23, 107, 135, 0.16);
+}
+
+/* One visible focus treatment for the whole site, for keyboard users only. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .wrap {
   width: min(1080px, calc(100% - 40px));
   margin: 0 auto;
 }
 
+/* Reading column. Widened from 720px: at the article's larger body size that
+   was running short of a comfortable measure. */
 .wrap-narrow {
-  width: min(720px, calc(100% - 40px));
+  width: min(780px, calc(100% - 40px));
   margin: 0 auto;
 }
 
@@ -65,8 +95,9 @@ header {
   top: 0;
   z-index: 10;
   border-bottom: 1px solid rgba(220, 226, 234, 0.8);
-  background: rgba(247, 248, 251, 0.92);
-  backdrop-filter: blur(14px);
+  background: rgba(247, 248, 251, 0.82);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
 }
 
 nav {
@@ -81,8 +112,8 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-weight: 750;
-  letter-spacing: 0;
+  font-weight: 700;
+  letter-spacing: -0.012em;
 }
 
 .mark {
@@ -90,11 +121,13 @@ nav {
   place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 8px;
+  border-radius: 9px;
   background: var(--ink);
   color: #fff;
   font-size: 13px;
   font-weight: 800;
+  letter-spacing: -0.02em;
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-links {
@@ -103,7 +136,11 @@ nav {
   gap: 18px;
   color: var(--muted);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 550;
+}
+
+.nav-links a {
+  transition: color var(--ease);
 }
 
 .nav-links a:hover {
@@ -116,8 +153,9 @@ nav {
   gap: 4px;
   padding: 3px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 9px;
   background: var(--surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .lang-switch button {
@@ -129,7 +167,12 @@ nav {
   color: var(--muted);
   font: inherit;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
+  transition: background var(--ease), color var(--ease);
+}
+
+.lang-switch button:hover {
+  color: var(--ink);
 }
 
 .lang-switch button[aria-pressed="true"] {
@@ -142,7 +185,7 @@ nav {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
   align-items: center;
-  gap: 48px;
+  gap: 56px;
   min-height: calc(100vh - 64px);
   padding: 76px 0 88px;
 }
@@ -150,9 +193,9 @@ nav {
 .eyebrow {
   margin: 0 0 14px;
   color: var(--accent);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -160,56 +203,78 @@ h1 {
   margin: 0;
   max-width: 760px;
   font-size: clamp(42px, 7vw, 78px);
-  line-height: 0.98;
-  letter-spacing: 0;
+  line-height: 1;
+  /* Inter needs negative tracking at display sizes or it reads loose. */
+  letter-spacing: -0.032em;
+  font-weight: 700;
 }
 
 .lead {
-  max-width: 670px;
-  margin: 24px 0 0;
+  max-width: 640px;
+  margin: 26px 0 0;
   color: var(--muted);
-  font-size: clamp(18px, 2.4vw, 22px);
-  line-height: 1.45;
+  font-size: clamp(18px, 2.4vw, 21px);
+  line-height: 1.5;
+  letter-spacing: -0.005em;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 34px;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 18px;
+  min-height: 46px;
+  padding: 0 20px;
   border: 1px solid var(--ink);
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: var(--ink);
   color: #fff;
-  font-weight: 750;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--ease), box-shadow var(--ease),
+    background var(--ease), border-color var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn.secondary {
-  background: transparent;
+  background: var(--surface);
   color: var(--ink);
   border-color: var(--line);
+}
+
+.btn.secondary:hover {
+  border-color: rgba(23, 107, 135, 0.4);
+  color: var(--accent);
 }
 
 .btn[disabled] {
   opacity: 0.6;
   cursor: progress;
+  transform: none;
 }
 
 .portrait {
   position: relative;
   min-height: 420px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--ink);
   box-shadow: var(--shadow);
@@ -226,8 +291,10 @@ h1 {
 
 /* ---- sections ---- */
 section {
-  padding: 48px 0;
+  padding: 72px 0;
   border-top: 1px solid var(--line);
+  /* Anchor links must clear the sticky header, or the heading lands under it. */
+  scroll-margin-top: 64px;
 }
 
 .section-head {
@@ -235,20 +302,22 @@ section {
   align-items: end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 22px;
+  margin-bottom: 30px;
 }
 
 h2 {
   margin: 0;
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.08;
-  letter-spacing: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.026em;
+  font-weight: 700;
 }
 
 .section-note {
   max-width: 460px;
   margin: 0;
   color: var(--muted);
+  font-size: 15px;
 }
 
 .grid {
@@ -259,11 +328,19 @@ h2 {
 
 .card {
   min-height: 220px;
-  padding: 22px;
+  padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background: var(--surface);
-  box-shadow: 0 1px 0 rgba(24, 32, 50, 0.04);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--ease), box-shadow var(--ease),
+    border-color var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(23, 107, 135, 0.26);
+  box-shadow: var(--shadow-md);
 }
 
 .card-top {
@@ -278,24 +355,28 @@ h2 {
   display: inline-flex;
   align-items: center;
   min-height: 26px;
-  padding: 0 9px;
+  padding: 0 10px;
+  border: 1px solid rgba(23, 107, 135, 0.14);
   border-radius: 999px;
   background: var(--soft);
   color: var(--accent);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 650;
+  letter-spacing: 0.005em;
 }
 
 .year {
   color: var(--muted);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .card h3 {
   margin: 0 0 10px;
   font-size: 20px;
   line-height: 1.25;
+  letter-spacing: -0.017em;
+  font-weight: 650;
 }
 
 .card p {
@@ -307,15 +388,23 @@ h2 {
 /* ---- experience ---- */
 .experience-list {
   display: grid;
-  gap: 12px;
+  gap: 0;
 }
 
 .experience-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 16px;
-  padding: 18px 0;
+  padding: 18px 12px;
+  margin: 0 -12px;
   border-bottom: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: background var(--ease);
+}
+
+.experience-item:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .experience-item:first-child {
@@ -325,7 +414,7 @@ h2 {
 .experience-main {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   min-width: 0;
 }
 
@@ -337,13 +426,14 @@ h2 {
   width: 52px;
   height: 52px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: #fff;
   color: var(--muted);
   font-size: 11px;
-  font-weight: 850;
+  font-weight: 800;
   line-height: 1;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .company-logo img {
@@ -361,36 +451,41 @@ h2 {
 }
 
 .experience-item h3 {
-  margin: 0 0 4px;
-  font-size: 18px;
+  margin: 0 0 3px;
+  font-size: 17px;
   line-height: 1.3;
+  letter-spacing: -0.014em;
+  font-weight: 650;
 }
 
 .experience-item p {
   margin: 0;
   color: var(--muted);
+  font-size: 15px;
 }
 
 .experience-date {
   color: var(--muted);
   font-size: 14px;
-  font-weight: 750;
+  font-weight: 600;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---- about ---- */
 .about {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 32px;
+  gap: 40px;
   align-items: start;
 }
 
 .about-panel {
-  padding: 24px;
+  padding: 28px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background: var(--surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .about-panel p {
@@ -399,37 +494,47 @@ h2 {
 }
 
 .about-panel p + p {
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 8px;
+  margin-top: 22px;
 }
 
 .skill {
-  padding: 8px 10px;
+  padding: 7px 11px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
   color: var(--muted);
-  font-size: 14px;
-  font-weight: 650;
+  font-size: 13.5px;
+  font-weight: 550;
+  transition: border-color var(--ease), color var(--ease);
+}
+
+.skill:hover {
+  border-color: rgba(23, 107, 135, 0.32);
+  color: var(--accent);
 }
 
 /* ---- contact ---- */
 .contact {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
   align-items: start;
-  gap: 32px;
-  padding: 30px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--ink);
+  gap: 40px;
+  padding: 38px;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-lg);
+  /* A slight gradient stops the dark panel reading as a flat black box. */
+  background: linear-gradient(150deg, #1d2740 0%, var(--ink) 55%, #141b2b 100%);
   color: #fff;
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .contact h2 {
@@ -438,8 +543,8 @@ h2 {
 
 .contact p {
   max-width: 620px;
-  margin: 12px 0 0;
-  color: rgba(255, 255, 255, 0.72);
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.68);
 }
 
 .contact .btn {
@@ -448,31 +553,38 @@ h2 {
   border-color: #fff;
 }
 
+.contact .btn:hover {
+  background: #eef5f7;
+  border-color: #eef5f7;
+}
+
 /* Contact form. Lives inside the dark panel, so fields are drawn as light
    outlines on the ink background rather than white boxes. */
 .contact-form {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .contact-form label {
   display: grid;
   gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.66);
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 8px;
+  padding: 11px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.06);
   color: #fff;
   font: inherit;
   font-size: 15px;
+  transition: border-color var(--ease), background var(--ease);
 }
 
 .contact-form textarea {
@@ -480,21 +592,27 @@ h2 {
   resize: vertical;
 }
 
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 .contact-form input:focus,
 .contact-form textarea:focus {
-  outline: 2px solid rgba(255, 255, 255, 0.55);
-  outline-offset: 1px;
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.34);
 }
 
 .form-status {
   margin: 4px 0 0;
   font-size: 14px;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .form-status.ok {
@@ -507,7 +625,7 @@ h2 {
 
 /* ---- footer ---- */
 footer {
-  padding: 28px 0 40px;
+  padding: 32px 0 44px;
   color: var(--muted);
   font-size: 14px;
 }
@@ -529,76 +647,96 @@ footer.bordered {
 
 .footer-links {
   display: flex;
-  gap: 16px;
-  font-weight: 700;
+  gap: 18px;
+  font-weight: 600;
+}
+
+.footer-links a {
+  transition: color var(--ease);
 }
 
 .footer-links a:hover {
-  color: var(--ink);
+  color: var(--accent);
 }
 
 .built-with {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--muted);
   font-size: 13px;
+  opacity: 0.85;
 }
 
 /* ---- blog: article ---- */
 .post-header {
-  padding: 64px 0 28px;
+  padding: 72px 0 30px;
 }
 
 .post-header h1 {
   margin: 0;
-  font-size: clamp(32px, 5vw, 50px);
+  font-size: clamp(34px, 5vw, 52px);
   line-height: 1.08;
+  letter-spacing: -0.03em;
 }
 
 .post-meta {
-  margin-top: 18px;
+  margin-top: 20px;
   color: var(--muted);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 550;
 }
 
 .post-lead {
   margin: 22px 0 0;
   color: var(--muted);
   font-size: clamp(17px, 2.2vw, 20px);
-  line-height: 1.5;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
 }
 
+/* Article prose. Set larger and looser than the UI: this is the one place on
+   the site meant to be read for ten minutes rather than scanned. */
 .post-body {
-  padding-bottom: 88px;
+  padding-bottom: 96px;
+  font-size: 17.5px;
+  line-height: 1.75;
 }
 
 .post-body h2 {
-  margin: 52px 0 14px;
-  font-size: clamp(23px, 3vw, 30px);
+  margin: 56px 0 16px;
+  font-size: clamp(24px, 3vw, 30px);
   line-height: 1.2;
+  letter-spacing: -0.024em;
 }
 
 .post-body h3 {
-  margin: 34px 0 10px;
+  margin: 38px 0 12px;
   font-size: 19px;
+  letter-spacing: -0.016em;
+  font-weight: 650;
 }
 
 .post-body p {
-  margin: 0 0 18px;
+  margin: 0 0 22px;
 }
 
 .post-body ul,
 .post-body ol {
-  margin: 0 0 18px;
-  padding-left: 22px;
+  margin: 0 0 22px;
+  padding-left: 24px;
 }
 
 .post-body li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+.post-body li::marker {
+  color: var(--accent);
 }
 
 .post-body strong {
-  font-weight: 750;
+  font-weight: 650;
+  color: #0f1726;
 }
 
 /* Links in article prose.
@@ -607,24 +745,73 @@ footer.bordered {
  * underline, which suits nav and cards but would render a link inside an
  * article indistinguishable from the text around it. Scoped to `.post-prose`
  * -- the injected article HTML -- rather than `.post-body`, so the "All posts"
- * link that follows the article keeps its own styling.
- *
- * This used to require `class="link"` on every link, which was a footgun:
- * forgetting it produced an invisible link rather than an obvious mistake. */
+ * link that follows the article keeps its own styling. */
 .post-prose a {
   color: var(--accent);
-  font-weight: 650;
+  font-weight: 550;
   border-bottom: 1px solid rgba(23, 107, 135, 0.35);
+  transition: border-color var(--ease), background var(--ease);
 }
 
 .post-prose a:hover {
   border-bottom-color: var(--accent);
+  background: rgba(23, 107, 135, 0.07);
+}
+
+/* Code and terminal output. Wide blocks scroll inside themselves -- the page
+   body must never scroll horizontally on a phone. Set on the ink background:
+   a page of white cards needs one element with real contrast in it. */
+.post-body pre {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border: 1px solid rgba(24, 32, 50, 0.9);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, #1d2740, var(--ink));
+  box-shadow: var(--shadow-md);
+  color: #dfe7f0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: auto;
+}
+
+.post-body code {
+  padding: 2px 6px;
+  border: 1px solid rgba(23, 107, 135, 0.14);
+  border-radius: 6px;
+  background: var(--soft);
+  color: #12556b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+}
+
+.post-body pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.post-body .callout {
+  margin: 0 0 24px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent-2);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.post-body .callout p:last-child {
+  margin-bottom: 0;
 }
 
 /* Section break. Drawn with the same hairline as every other rule on the site,
    rather than the browser's default inset 3D line. */
 .post-body hr {
-  margin: 44px 0;
+  margin: 48px 0;
   border: 0;
   border-top: 1px solid var(--line);
 }
@@ -632,11 +819,12 @@ footer.bordered {
 /* Quotation. Deliberately quieter than `.callout` -- no card, no shadow -- so
    that a quote and an aside don't compete for the same visual weight. */
 .post-body blockquote {
-  margin: 0 0 22px;
-  padding: 4px 0 4px 22px;
+  margin: 0 0 24px;
+  padding: 6px 0 6px 24px;
   border-left: 3px solid var(--line);
   color: var(--muted);
-  font-size: 17px;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 .post-body blockquote p:last-child {
@@ -646,77 +834,34 @@ footer.bordered {
 /* Attribution: `<cite>` inside a quote reads as a name, not as a title. */
 .post-body blockquote cite {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--muted);
   font-size: 14px;
   font-style: normal;
-  font-weight: 650;
-}
-
-/* Code and terminal output. Wide blocks scroll inside themselves -- the page
-   body must never scroll horizontally on a phone. */
-.post-body pre {
-  margin: 0 0 22px;
-  padding: 16px 18px;
-  overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  color: var(--ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.post-body code {
-  padding: 1px 5px;
-  border-radius: 5px;
-  background: var(--soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.92em;
-}
-
-.post-body pre code {
-  padding: 0;
-  background: none;
-  font-size: inherit;
-}
-
-.post-body .callout {
-  margin: 0 0 22px;
-  padding: 18px 20px;
-  border-left: 3px solid var(--accent-2);
-  border-radius: 0 10px 10px 0;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-}
-
-.post-body .callout p:last-child {
-  margin-bottom: 0;
+  font-weight: 600;
 }
 
 .post-body .table-scroll {
   overflow-x: auto;
-  margin: 0 0 22px;
+  margin: 0 0 24px;
 }
 
 .post-body table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .post-body th,
 .post-body td {
-  padding: 10px 12px;
+  padding: 11px 13px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
 }
 
 .post-body th {
-  font-weight: 750;
+  font-weight: 650;
   color: var(--muted);
   font-size: 12px;
   text-transform: uppercase;
@@ -725,48 +870,59 @@ footer.bordered {
 
 /* ---- blog: index ---- */
 .post-list {
-  padding: 56px 0 88px;
+  padding: 56px 0 96px;
   display: grid;
   gap: 18px;
 }
 
 .post-card {
   display: block;
-  padding: 26px 28px;
+  padding: 28px 30px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: var(--surface);
-  box-shadow: var(--shadow);
-  transition: transform 0.15s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--ease), box-shadow var(--ease),
+    border-color var(--ease);
 }
 
 .post-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: rgba(23, 107, 135, 0.26);
+  box-shadow: var(--shadow-md);
 }
 
 .post-card h2 {
-  margin: 8px 0 10px;
-  font-size: 24px;
-  line-height: 1.2;
+  margin: 10px 0 10px;
+  font-size: 25px;
+  line-height: 1.22;
+  letter-spacing: -0.022em;
 }
 
 .post-card p {
   margin: 0;
   color: var(--muted);
+  font-size: 15.5px;
 }
 
 .post-card .year {
   color: var(--muted);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .back-link {
   display: inline-block;
-  margin-top: 44px;
+  margin-top: 48px;
   color: var(--accent);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
+  transition: opacity var(--ease);
+}
+
+.back-link:hover {
+  opacity: 0.7;
 }
 
 /* ---- responsive ---- */
@@ -780,6 +936,7 @@ footer.bordered {
   .hero {
     min-height: auto;
     padding-top: 52px;
+    gap: 40px;
   }
 
   .portrait {
@@ -788,6 +945,10 @@ footer.bordered {
 
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  section {
+    padding: 56px 0;
   }
 
   .section-head {
@@ -800,6 +961,11 @@ footer.bordered {
 
   .experience-item {
     grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .contact {
+    padding: 30px;
   }
 
   .footer-inner {
@@ -823,11 +989,19 @@ footer.bordered {
 
 @media (max-width: 640px) {
   .post-header {
-    padding: 40px 0 20px;
+    padding: 44px 0 22px;
+  }
+
+  .post-body {
+    font-size: 17px;
   }
 
   .post-body h2 {
-    margin-top: 40px;
+    margin-top: 44px;
+  }
+
+  .post-card {
+    padding: 24px;
   }
 }
 
@@ -847,5 +1021,23 @@ footer.bordered {
 
   .btn {
     width: 100%;
+  }
+}
+
+/* Readers who ask for less motion get none of the lift-on-hover behaviour. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .btn:hover,
+  .card:hover,
+  .post-card:hover {
+    transform: none;
   }
 }
