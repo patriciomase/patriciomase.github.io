@@ -794,6 +794,14 @@ footer.bordered {
   font-size: inherit;
 }
 
+/* Shiki emits `pre.shiki` with the token colours inline. Its own background is
+   stripped by a transformer so the block keeps the site's gradient. */
+.post-body pre.shiki {
+  color: #dfe7f0;
+}
+
+/* `:::callout` renders as <aside>. */
+.post-body aside,
 .post-body .callout {
   margin: 0 0 24px;
   padding: 20px 22px;
@@ -804,6 +812,7 @@ footer.bordered {
   box-shadow: var(--shadow-sm);
 }
 
+.post-body aside p:last-child,
 .post-body .callout p:last-child {
   margin-bottom: 0;
 }

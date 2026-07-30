@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PostArticle } from "@/components/PostArticle";
 import { TrackView } from "@/components/TrackView";
 import { getPublishedPost, listPublishedPosts } from "@/lib/posts";
+import { renderMarkdown } from "@/lib/markdown";
 
 export const revalidate = 60;
 
@@ -53,9 +54,11 @@ export default async function PostPage({ params }: Props) {
           titleEs: post.titleEs,
           leadEn: post.leadEn,
           leadEs: post.leadEs,
-          bodyEn: post.bodyEn,
-          bodyEs: post.bodyEs,
         }}
+        /* Rendered here, in a Server Component, so the markdown parser and
+           Shiki never ship to the browser. */
+        bodyEn={renderMarkdown(post.bodyEn)}
+        bodyEs={renderMarkdown(post.bodyEs)}
       />
     </>
   );

@@ -45,7 +45,12 @@ export const posts = pgTable(
     /** Short blurb for the blog index card. */
     excerptEn: text("excerpt_en").notNull(),
     excerptEs: text("excerpt_es").notNull(),
-    /** Full article HTML, one complete copy per language. */
+    /**
+     * Full article body as markdown, one complete copy per language.
+     * Rendered to React elements by `src/lib/markdown.tsx` -- GitHub-flavoured
+     * markdown plus `:::callout` directives. Not HTML: these were HTML until
+     * the renderer landed, and nothing injects them into the DOM any more.
+     */
     bodyEn: text("body_en").notNull(),
     bodyEs: text("body_es").notNull(),
     /** <meta name="description"> per language. */

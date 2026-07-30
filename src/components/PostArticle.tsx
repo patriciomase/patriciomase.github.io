@@ -16,18 +16,30 @@ export type PostView = {
   titleEs: string;
   leadEn: string;
   leadEs: string;
-  bodyEn: string;
-  bodyEs: string;
 };
 
-export function PostArticle({ post }: { post: PostView }) {
+/**
+ * Article bodies arrive as already-rendered React trees rather than as markdown
+ * strings. Both languages are rendered by the page, which is a Server
+ * Component, so the markdown parser and the syntax highlighter stay on the
+ * server; this component only chooses which of the two to show.
+ */
+export function PostArticle({
+  post,
+  bodyEn,
+  bodyEs,
+}: {
+  post: PostView;
+  bodyEn: React.ReactNode;
+  bodyEs: React.ReactNode;
+}) {
   const { locale, t } = useLanguage();
   const es = locale === "es";
 
   const eyebrow = es ? post.eyebrowEs : post.eyebrowEn;
   const title = es ? post.titleEs : post.titleEn;
   const lead = es ? post.leadEs : post.leadEn;
-  const body = es ? post.bodyEs : post.bodyEn;
+  const body = es ? bodyEs : bodyEn;
 
   const meta = post.publishedAt
     ? `${formatPostDate(new Date(post.publishedAt), locale)} · ${post.readMinutes} ${t("blog.readTime")}`
@@ -46,9 +58,7 @@ export function PostArticle({ post }: { post: PostView }) {
         </div>
 
         <article className="wrap-narrow post-body">
-          {/* Article HTML is authored by the site owner and stored in the posts
-              table -- it is first-party content, not visitor input. */}
-          <div className="post-prose" dangerouslySetInnerHTML={{ __html: body }} />
+          <div className="post-prose">{body}</div>
           <Link className="back-link" href="/blog">
             {t("blog.back")}
           </Link>

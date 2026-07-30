@@ -51,63 +51,61 @@ To version a post alongside the code instead, add it to
 `src/db/seed-data/posts.json` and run `npm run db:seed` — the seed upserts on
 `slug`, so it doubles as a content update.
 
-`body_en` / `body_es` hold article HTML authored by the site owner and are
-rendered as-is. They are first-party content and are not sanitised; do not put
-anything visitor-supplied in them.
+`body_en` / `body_es` hold markdown authored by the site owner.
 
-### Article HTML
+### Writing a post
 
-Bodies are plain HTML, not Markdown. Everything below is styled by
-`.post-body` / `.post-prose` in `src/app/globals.css`:
+Bodies are GitHub-flavoured **markdown**. `src/lib/markdown.tsx` renders them
+to React elements through a component map — nothing is injected as HTML.
 
-| Block            | Markup                                                |
-| ---------------- | ----------------------------------------------------- |
-| Headings         | `<h2>`, `<h3>`                                        |
-| Paragraph        | `<p>`                                                 |
-| Emphasis         | `<strong>`, `<em>`                                    |
-| Link             | `<a href="…">` — no class needed                      |
-| Bullets/numbers  | `<ul><li>`, `<ol><li>`                                |
-| Quotation        | `<blockquote><p>…</p><cite>Name</cite></blockquote>`  |
-| Aside / callout  | `<div class="callout"><p>…</p></div>`                 |
-| Section break    | `<hr>`                                                |
-| Inline code      | `<code>`                                              |
-| Code block       | `<pre><code>` — scrolls horizontally, never the page  |
-| Table            | `<div class="table-scroll"><table>…</table></div>`    |
-| Image            | `<img src="/blog/thing.png" alt="…">`                 |
-| Image + caption  | `<figure><img …><figcaption>…</figcaption></figure>`  |
-| Wide image       | add `class="wide"` to the `<img>`                     |
+| Block           | Markdown                                              |
+| --------------- | ----------------------------------------------------- |
+| Headings        | `## H2`, `### H3`                                     |
+| Emphasis        | `**bold**`, `_italic_`                                |
+| Link            | `[text](https://…)`                                   |
+| Bullets/numbers | `- item`, `1. item`                                   |
+| Quotation       | `> quoted text`                                       |
+| Aside / callout | `:::callout` … `:::`                                  |
+| Section break   | `---`                                                 |
+| Inline code     | `` `code` ``                                          |
+| Code block      | ```` ```bash ```` — highlighted, scrolls horizontally |
+| Table           | GFM pipe table — wrapped in a scroller automatically  |
+| Image           | `![alt](/blog/thing.png)`                             |
+| Image + caption | `![alt](/blog/thing.png "The caption")`               |
+| Wide image      | `![alt](/blog/thing.png#wide)`                        |
 
 A quote is styled quieter than a callout on purpose, so the two don't compete
 for the same visual weight.
 
+Three things the component map does so you don't have to:
+
+- **Tables** are wrapped in `.table-scroll`; you can't forget it any more.
+- **Code blocks** go through Shiki on the server. Tag the fence with a language
+  (`bash`, `ts`, `json`, `sql`, `python`, `diff`, …) or it renders as plain
+  text. No highlighter reaches the browser.
+- **Images** become `next/image`, with dimensions read off disk at render, so
+  they are optimised and reserve their space without you writing any.
+
 ### Images
 
 Put the file in `public/blog/` and reference it as `/blog/<name>`. It is
-committed to the repo and served as a static asset, so publishing an image
-does require a deploy — unlike publishing a post.
+committed to the repo, so publishing an image does need a deploy — unlike
+publishing a post.
 
-```html
-<figure>
-  <img src="/blog/bed-mesh.png" alt="A 25-point bed mesh readout">
-  <figcaption>The mesh survives a power cycle. The flag enabling it does not.</figcaption>
-</figure>
+```markdown
+![A 25-point bed mesh readout](/blog/bed-mesh.png "The mesh survives a power cycle. The flag enabling it does not.")
 ```
 
-`class="wide"` lets a screenshot spill past the reading column on screens
-above 1040px, which suits wide terminal captures.
+The title slot becomes a `<figcaption>`. A `#wide` fragment lets a screenshot
+spill past the reading column above 1040px, which suits wide terminal captures.
 
-Two things to know:
+If a file can't be measured (a remote URL, or a format `image-size` can't
+read), it falls back to a plain `<img>` — the stylesheet still constrains it,
+so that degrades in quality, never in layout.
 
-- **Images are not run through `next/image`.** Article bodies are raw HTML, so
-  there is no component to optimise them. Resize and compress before
-  committing — a 2500px screenshot ships at 2500px.
-- **Always set an explicit `width`/`height`** on the `<img>` where you can. The
-  CSS keeps images inside the column either way, but without intrinsic
-  dimensions the page reflows as each one loads.
-
-Article links are styled by `.post-prose a`, which matches the injected body
-HTML only. The "All posts" link below the article is a sibling of that element,
-so it keeps its own styling.
+Article links are styled by `.post-prose a`, which matches the rendered body
+only. The "All posts" link below the article is a sibling of that element, so
+it keeps its own styling.
 
 ## Internationalisation
 
