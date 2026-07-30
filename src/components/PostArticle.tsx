@@ -48,7 +48,7 @@ export function PostArticle({ post }: { post: PostView }) {
         <article className="wrap-narrow post-body">
           {/* Article HTML is authored by the site owner and stored in the posts
               table -- it is first-party content, not visitor input. */}
-          <div dangerouslySetInnerHTML={{ __html: body }} />
+          <div className="post-prose" dangerouslySetInnerHTML={{ __html: body }} />
           <Link className="back-link" href="/blog">
             {t("blog.back")}
           </Link>

@@ -55,6 +55,32 @@ To version a post alongside the code instead, add it to
 rendered as-is. They are first-party content and are not sanitised; do not put
 anything visitor-supplied in them.
 
+### Article HTML
+
+Bodies are plain HTML, not Markdown. Everything below is styled by
+`.post-body` / `.post-prose` in `src/app/globals.css`:
+
+| Block            | Markup                                                |
+| ---------------- | ----------------------------------------------------- |
+| Headings         | `<h2>`, `<h3>`                                        |
+| Paragraph        | `<p>`                                                 |
+| Emphasis         | `<strong>`, `<em>`                                    |
+| Link             | `<a href="…">` — no class needed                      |
+| Bullets/numbers  | `<ul><li>`, `<ol><li>`                                |
+| Quotation        | `<blockquote><p>…</p><cite>Name</cite></blockquote>`  |
+| Aside / callout  | `<div class="callout"><p>…</p></div>`                 |
+| Section break    | `<hr>`                                                |
+| Inline code      | `<code>`                                              |
+| Code block       | `<pre><code>` — scrolls horizontally, never the page  |
+| Table            | `<div class="table-scroll"><table>…</table></div>`    |
+
+A quote is styled quieter than a callout on purpose, so the two don't compete
+for the same visual weight.
+
+Article links are styled by `.post-prose a`, which matches the injected body
+HTML only. The "All posts" link below the article is a sibling of that element,
+so it keeps its own styling.
+
 ## Internationalisation
 
 Short strings live in `src/lib/i18n.ts`; long-form article prose lives in the
