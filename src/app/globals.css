@@ -841,6 +841,51 @@ footer.bordered {
   font-weight: 600;
 }
 
+/* Images in article prose.
+ *
+ * The max-width is not cosmetic. Without it an image wider than the column
+ * doesn't merely overflow the column, it widens the whole document: a 1600px
+ * screenshot produced a 1620px-wide page on a 400px phone, so the entire site
+ * scrolled sideways. */
+.post-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+/* <figure> pairs an image with its caption as one block. */
+.post-body figure {
+  margin: 0 0 28px;
+}
+
+.post-body figure img {
+  margin-bottom: 12px;
+}
+
+.post-body figcaption {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Opt-in `class="wide"`: lets a screenshot breathe past the reading column on
+   a large screen. Sized in px rather than vw deliberately -- 100vw includes
+   the scrollbar, which reintroduces the sideways scroll this section exists to
+   prevent. Below the breakpoint it falls back to the normal max-width rule. */
+@media (min-width: 1040px) {
+  .post-body img.wide,
+  .post-body figure.wide img {
+    width: 960px;
+    max-width: none;
+    /* (960 - 780) / 2, to keep it centred on the 780px column. */
+    margin-left: -90px;
+  }
+}
+
 .post-body .table-scroll {
   overflow-x: auto;
   margin: 0 0 24px;

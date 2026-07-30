@@ -73,9 +73,37 @@ Bodies are plain HTML, not Markdown. Everything below is styled by
 | Inline code      | `<code>`                                              |
 | Code block       | `<pre><code>` — scrolls horizontally, never the page  |
 | Table            | `<div class="table-scroll"><table>…</table></div>`    |
+| Image            | `<img src="/blog/thing.png" alt="…">`                 |
+| Image + caption  | `<figure><img …><figcaption>…</figcaption></figure>`  |
+| Wide image       | add `class="wide"` to the `<img>`                     |
 
 A quote is styled quieter than a callout on purpose, so the two don't compete
 for the same visual weight.
+
+### Images
+
+Put the file in `public/blog/` and reference it as `/blog/<name>`. It is
+committed to the repo and served as a static asset, so publishing an image
+does require a deploy — unlike publishing a post.
+
+```html
+<figure>
+  <img src="/blog/bed-mesh.png" alt="A 25-point bed mesh readout">
+  <figcaption>The mesh survives a power cycle. The flag enabling it does not.</figcaption>
+</figure>
+```
+
+`class="wide"` lets a screenshot spill past the reading column on screens
+above 1040px, which suits wide terminal captures.
+
+Two things to know:
+
+- **Images are not run through `next/image`.** Article bodies are raw HTML, so
+  there is no component to optimise them. Resize and compress before
+  committing — a 2500px screenshot ships at 2500px.
+- **Always set an explicit `width`/`height`** on the `<img>` where you can. The
+  CSS keeps images inside the column either way, but without intrinsic
+  dimensions the page reflows as each one loads.
 
 Article links are styled by `.post-prose a`, which matches the injected body
 HTML only. The "All posts" link below the article is a sibling of that element,
