@@ -19,7 +19,7 @@ markup is preserved in this repo's history at commit `8e62579`.
 npm install
 cp .env.example .env   # then fill in DATABASE_URL, or: vercel env pull .env
 npm run db:migrate     # apply schema
-npm run db:seed        # load posts from src/db/seed-data/posts.json
+npm run publish        # load content/posts/*.md into the database
 npm run dev
 ```
 
@@ -43,15 +43,54 @@ npm run db:studio      # browse the data
 
 ## Publishing a post
 
-Posts are rows, not files, so a new post does not need a deploy. Insert a row in
-`posts` with `status = 'published'`; the blog index and the post page pick it up
-within 60 seconds (`revalidate = 60`).
+Markdown files in `content/posts/` are the source of truth; the `posts` table
+is the serving layer. Prose lives in git where it can be diffed, reviewed and
+reverted, while the database is what lets a post appear without a deploy.
 
-To version a post alongside the code instead, add it to
-`src/db/seed-data/posts.json` and run `npm run db:seed` — the seed upserts on
-`slug`, so it doubles as a content update.
+Every post is two files, one per language:
 
-`body_en` / `body_es` hold markdown authored by the site owner.
+```
+content/posts/
+  claude-code-on-a-3d-printer.en.md
+  claude-code-on-a-3d-printer.es.md
+```
+
+The slug comes from the filename. Frontmatter:
+
+```markdown
+---
+publishedAt: 2026-07-30       # these three describe the post itself
+readMinutes: 10               # and live in the .en.md file only
+status: published             # draft | published
+eyebrow: AI workflows · Tooling
+title: Claude Code, pointed at a 3D printer
+lead: The standfirst under the title.
+excerpt: The blurb on the blog index card.
+metaDescription: The <meta name="description"> for this language.
+---
+
+## The article starts here
+```
+
+The `.es.md` file carries only the five per-language fields. Putting
+`publishedAt`, `readMinutes` or `status` there is an error, so the two
+languages cannot drift into disagreeing about when a post was published.
+
+Then:
+
+```bash
+npm run publish                 # every post
+npm run publish -- <slug>       # just one
+npm run publish -- --dry-run    # report what would change, write nothing
+```
+
+Publishing upserts on `slug`, so it doubles as a content update — it reports
+exactly which fields changed. A published post appears within 60 seconds
+(`revalidate = 60`), no deploy needed. A post with `status: draft` is written
+to the database but stays out of the index and 404s on its own URL.
+
+Images are the exception: they live in `public/blog/` and are served as static
+assets, so adding one does need a deploy.
 
 ### Writing a post
 
