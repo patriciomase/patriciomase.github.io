@@ -8,16 +8,23 @@ import { SiteFooter } from "./SiteFooter";
 import { ContactForm } from "./ContactForm";
 import type { MessageKey } from "@/lib/i18n";
 
-/** Selected-work cards. Copy lives in the dictionary; only shape lives here. */
+/**
+ * Selected-work cards. Copy lives in the dictionary; only shape lives here.
+ * `href` is set only on work that is publicly visitable — the client systems
+ * are behind logins and not attributable, so they stay unlinked.
+ */
 const WORK_CARDS: {
   tag: MessageKey;
   when: MessageKey;
   title: MessageKey;
   body: MessageKey;
+  href?: string;
+  hrefLabel?: MessageKey;
+  icon?: string;
 }[] = [
   {
     tag: "work.card1.tag",
-    when: "work.recent",
+    when: "work.ongoing",
     title: "work.card1.title",
     body: "work.card1.body",
   },
@@ -29,9 +36,18 @@ const WORK_CARDS: {
   },
   {
     tag: "work.card3.tag",
-    when: "work.ongoing",
+    when: "work.recent",
     title: "work.card3.title",
     body: "work.card3.body",
+  },
+  {
+    tag: "work.card4.tag",
+    when: "work.ongoing",
+    title: "work.card4.title",
+    body: "work.card4.body",
+    href: "https://gastoscasa.com",
+    hrefLabel: "work.card4.link",
+    icon: "/logos/gastoscasa.png",
   },
 ];
 
@@ -96,7 +112,7 @@ const SKILLS: (MessageKey | { literal: string })[] = [
   { literal: "AWS" },
   "skills.monitoring",
   "skills.productEngineering",
-  "skills.frontendArchitecture",
+  "skills.systemArchitecture",
   "skills.aiWorkflows",
   "skills.teamCollaboration",
 ];
@@ -147,8 +163,26 @@ export function PortfolioPage() {
                     <span className="tag">{t(card.tag)}</span>
                     <span className="year">{t(card.when)}</span>
                   </div>
-                  <h3>{t(card.title)}</h3>
+                  <h3>
+                    {/* Plain <img>: a tiny local product mark, decorative
+                        next to the title it already names. */}
+                    {card.icon ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img className="card-icon" src={card.icon} alt="" />
+                    ) : null}
+                    {t(card.title)}
+                  </h3>
                   <p>{t(card.body)}</p>
+                  {card.href && card.hrefLabel ? (
+                    <a
+                      className="card-link"
+                      href={card.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t(card.hrefLabel)}
+                    </a>
+                  ) : null}
                 </article>
               ))}
             </div>

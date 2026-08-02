@@ -322,7 +322,7 @@ h2 {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -372,6 +372,9 @@ h2 {
 }
 
 .card h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   margin: 0 0 10px;
   font-size: 20px;
   line-height: 1.25;
@@ -379,10 +382,27 @@ h2 {
   font-weight: 650;
 }
 
+/* Height-driven so the mark keeps its own aspect ratio; the asset is
+   cropped tight to the artwork, so this matches the title's cap height. */
+.card-icon {
+  flex: none;
+  width: auto;
+  height: 22px;
+}
+
 .card p {
   margin: 0;
   color: var(--muted);
   font-size: 15px;
+}
+
+/* Only the cards for publicly visitable work carry this. */
+.card-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 650;
 }
 
 /* ---- experience ---- */
