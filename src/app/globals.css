@@ -133,6 +133,7 @@ nav {
 .nav-links {
   display: flex;
   align-items: center;
+  margin-left: auto;
   gap: 18px;
   color: var(--muted);
   font-size: 14px;
@@ -1048,16 +1049,26 @@ footer.bordered {
   }
 
   nav {
-    align-items: flex-start;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
     gap: 10px;
     padding: 12px 0;
   }
 
   .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-left: 0;
     flex-wrap: wrap;
     gap: 12px;
     font-size: 13px;
+  }
+
+  .lang-switch {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
   }
 }
 
@@ -1086,6 +1097,18 @@ footer.bordered {
 
   h1 {
     font-size: 40px;
+  }
+
+  .brand {
+    min-width: 0;
+    gap: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .mark {
+    width: 30px;
+    height: 30px;
   }
 
   .actions,

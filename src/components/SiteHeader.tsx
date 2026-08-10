@@ -37,18 +37,18 @@ export function SiteHeader({ variant = "portfolio" }: { variant?: "portfolio" | 
               {t(link.labelKey)}
             </Link>
           ))}
-          <div className="lang-switch" aria-label={t("nav.language")}>
-            {LOCALES.map((code) => (
-              <button
-                key={code}
-                type="button"
-                aria-pressed={code === locale}
-                onClick={() => setLocale(code)}
-              >
-                {code.toUpperCase()}
-              </button>
-            ))}
-          </div>
+        </div>
+        <div className="lang-switch" aria-label={t("nav.language")}>
+          {LOCALES.map((code) => (
+            <button
+              key={code}
+              type="button"
+              aria-pressed={code === locale}
+              onClick={() => setLocale(code)}
+            >
+              {code.toUpperCase()}
+            </button>
+          ))}
         </div>
       </nav>
     </header>
