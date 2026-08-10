@@ -3,7 +3,7 @@ publishedAt: 2026-08-03
 readMinutes: 7
 status: published
 eyebrow: AI workflows · Linux
-title: Claude Code, pointed at a dead printer
+title: Claude Code RCPing a Xerox printer
 lead: A laser printer that produced nothing and reported every job as completed. I had bounced off it twice. The third time I opened Claude Code in a terminal and let it drive — and the fault it eventually found was one that no host-side command could ever have shown it.
 excerpt: A Xerox Phaser 3020 that printed nothing and called every job a success. How I debugged it with Claude Code, the confident misdiagnosis it made, and the piece of paper in the output tray that only I could read.
 metaDescription: Debugging a Xerox Phaser 3020 on Ubuntu 24.04 with Claude Code — why CUPS reported success on total failure, a confident wrong diagnosis, and the firmware crash page that broke the deadlock.

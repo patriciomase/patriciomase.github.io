@@ -15,6 +15,8 @@ A single-page PDF from a phone note-taking app: a raster photo of ink on graph p
 
 The question was one number: square metres of flooring to buy.
 
+![The original hand-drawn plan: ink on graph paper, photographed to PDF](/blog/croquis-original.png "The input, exactly as it arrived. Twenty-two handwritten dimensions, Argentine decimal notation, some rotated to sit alongside vertical lines. Two of these numbers cannot both be true.")
+
 I expected the hard part to be reading the handwriting. It was not. A current model looks at that page and pulls out the numbers and roughly where they sit, and it does it in one shot. **Reading was the easy part, and it is the part everyone expects to be hard.**
 
 The hard part is that reading produces a *belief*, and a belief about somebody's handwriting is a poor thing to buy 93 m² of ceramic against. So the first thing I asked for was not the area. It was a way to test the reading.
@@ -110,6 +112,8 @@ The internal coherence of that set is itself a check, and it flagged this withou
 The right-hand strip is the exception and it is instructive too: 0.54 m by closure against `0,40` written on the sketch. That 14 cm is precisely the residual of the house's own perimeter loop — `5,45 + 2,78 = 8,23` against `4,17 + 5,30 − 1,10 = 8,37`. Accumulated tape error has to land somewhere, and it lands in the narrowest dimension, because that is where a fixed absolute error is least visible.
 
 ## Drawing and number from one source
+
+![The generated plan, vectorised and fully dimensioned](/blog/croquis-plano.png#wide "The output. Labels are in Spanish — CASA, patio, playón (car pad), escalones (steps). Values in brackets were never measured by anybody: they are consequences of the outline closing. The teal dashed regions are the pieces measured separately.")
 
 The clean plan is generated, not drawn: two arrays of vertices, one for the outer boundary and one for the house, converted to SVG paths in a loop. Dimension text sits at each segment's midpoint with a per-segment offset, which is the only part needing manual fiddling — labels collide, and where they collide is not predictable from the geometry.
 

@@ -12,6 +12,8 @@ Un PDF de una sola página hecho con una app de notas del celular: una foto rast
 
 La pregunta era un solo número: metros cuadrados de piso a comprar.
 
+![El croquis original a mano: tinta sobre papel cuadriculado, fotografiado a PDF](/blog/croquis-original.png "La entrada, exactamente como llegó. Veintidós cotas escritas a mano, notación decimal argentina, algunas rotadas para acompañar líneas verticales. Dos de estos números no pueden ser ciertos a la vez.")
+
 Esperaba que la parte difícil fuera leer la letra. No lo era. Un modelo actual mira esa página y saca los números y aproximadamente dónde están, y lo hace de una. **Leer era la parte fácil, y es la parte que todos esperan que sea difícil.**
 
 La parte difícil es que leer produce una *creencia*, y una creencia sobre la letra de alguien es mala base para comprar 93 m² de cerámico. Así que lo primero que pedí no fue el área. Fue una forma de testear la lectura.
@@ -107,6 +109,8 @@ La coherencia interna de ese conjunto es en sí misma un chequeo, y lo señaló 
 La vereda derecha es la excepción y también es instructiva: 0,54 m por cierre contra `0,40` escrito en el croquis. Esos 14 cm son exactamente el residuo del perímetro propio de la casa — `5,45 + 2,78 = 8,23` contra `4,17 + 5,30 − 1,10 = 8,37`. El error de cinta acumulado tiene que caer en algún lado, y cae en la dimensión más angosta, porque es donde un error absoluto fijo es menos visible.
 
 ## Dibujo y número de una sola fuente
+
+![El plano generado, vectorizado y completamente acotado](/blog/croquis-plano.png#wide "La salida. Los valores entre paréntesis no los midió nadie: son consecuencias de que el contorno cierre. Las regiones punteadas en verde son las piezas medidas por separado.")
 
 El plano limpio es generado, no dibujado: dos arreglos de vértices, uno para el contorno exterior y otro para la casa, convertidos a paths SVG en un loop. El texto de las cotas va en el punto medio de cada segmento con un offset por segmento, que es la única parte que necesita retoque manual — las etiquetas chocan, y dónde chocan no es predecible a partir de la geometría.
 

@@ -1,6 +1,6 @@
 ---
 eyebrow: Flujos con IA · Linux
-title: Claude Code, apuntado a una impresora muerta
+title: Claude Code haciéndole RCP a una impresora Xerox
 lead: "Una impresora láser que no producía nada y reportaba todos los trabajos como completados. Ya había rebotado dos veces contra el problema. La tercera abrí Claude Code en una terminal y lo dejé manejar — y la falla que terminó encontrando era una que ningún comando del host podría haberle mostrado."
 excerpt: "Una Xerox Phaser 3020 que no imprimía nada y llamaba éxito a cada trabajo. Cómo la debuggeé con Claude Code, el diagnóstico equivocado que hizo con total seguridad, y el papel en la bandeja de salida que solo yo podía leer."
 metaDescription: "Debuggear una Xerox Phaser 3020 en Ubuntu 24.04 con Claude Code — por qué CUPS reportaba éxito ante una falla total, un diagnóstico confiadamente equivocado, y la página de crash del firmware que rompió el empate."
