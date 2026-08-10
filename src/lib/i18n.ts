@@ -61,7 +61,7 @@ const en = {
   "work.card4.tag": "Personal product",
   "work.card4.title": "GastosCasa",
   "work.card4.body":
-    "A shared household expense tracker built for inflationary economies. Members log spending in one currency and read it in a second, with the exchange rate frozen at the moment of entry — so a grocery run from 2024 still shows what it actually cost. Handles credit-card installments, recurring bills, and monthly reports, on web and mobile.",
+    "A shared budget manager for households where several family members track expenses together. Everyone can log spending, review clear charts, organize recurring bills, and keep the monthly budget in order from the web or mobile. It also supports credit-card installments, multiple currencies, and inflation tracking.",
   "work.card4.link": "gastoscasa.com",
   "experience.title": "Experience",
   "experience.note":
@@ -152,7 +152,7 @@ const es: Record<MessageKey, string> = {
   "work.card4.tag": "Producto propio",
   "work.card4.title": "GastosCasa",
   "work.card4.body":
-    "Un gestor de gastos compartidos pensado para economías con inflación. Los integrantes registran consumos en una moneda y pueden consultarlos en otra, con el tipo de cambio fijado al momento de cada carga. Así, una compra del supermercado de 2024 sigue mostrando cuánto costó realmente. Incluye cuotas de tarjeta, gastos recurrentes e informes mensuales, tanto en la web como en dispositivos móviles.",
+    "Un gestor de presupuesto para hogares en los que varios integrantes de la familia administran los gastos juntos. Cada persona puede registrar consumos, revisar gráficos claros, organizar gastos recurrentes y mantener el presupuesto mensual en orden desde la web o el celular. También permite administrar cuotas de tarjeta, trabajar con varias monedas y seguir la inflación.",
   "work.card4.link": "gastoscasa.com",
   "experience.title": "Experiencia",
   "experience.note":
