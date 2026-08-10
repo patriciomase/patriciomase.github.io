@@ -1,24 +1,24 @@
 ---
 eyebrow: Flujos con IA · Medición
-title: Le di a Claude Code una foto de un croquis a mano
-lead: "Un dibujo en papel cuadriculado, veintidós cotas escritas a mano, y una sola pregunta — cuánto piso comprar. Lo que quería era un número. Lo que obtuve fue una prueba de que el croquis estaba mal, un ranking de cuál medida estaba mintiendo, y una lista de las que valía la pena salir a verificar con la cinta."
+title: Le di a Claude Code una foto de un croquis hecho a mano
+lead: "Un dibujo en papel cuadriculado, veintidós cotas escritas a mano y una sola pregunta: cuánto piso comprar. Yo quería un número. Obtuve una prueba de que el croquis estaba mal, una lista ordenada de las medidas más sospechosas y cuáles valía la pena salir a verificar con la cinta."
 excerpt: "Un croquis fotografiado cuyas medidas no cerraban por 50 cm. Cómo usé Claude Code para encontrar el error, cómo identificó al culpable midiendo el dibujo mismo, la ronda en la que se contradijo a sí mismo, y dónde quedó trabado hasta que alguien salió con la cinta."
 metaDescription: "Convertir un croquis a mano fotografiado en metros cuadrados con Claude Code — cierre de polígono como test de consistencia, medición en píxeles del escaneo para atribuir el error, y hasta dónde no pudo llegar el agente."
 ---
 
 ## Qué le pasé realmente
 
-Un PDF de una sola página hecho con una app de notas del celular: una foto raster de tinta sobre papel cuadriculado. Una casa, la vereda que la rodea, veintidós cotas escritas a mano en notación argentina — `8,40` — algunas rotadas noventa grados para acompañar líneas verticales. Sin datos vectoriales, sin capas, sin estructura.
+Un PDF de una sola página creado con una aplicación de notas del celular: una foto de tinta sobre papel cuadriculado, sin información vectorial. Una casa, la vereda que la rodea, veintidós cotas escritas a mano en notación argentina —`8,40`—, algunas rotadas noventa grados para acompañar líneas verticales. Sin capas, sin estructura.
 
 La pregunta era un solo número: metros cuadrados de piso a comprar.
 
 ![El croquis original a mano: tinta sobre papel cuadriculado, fotografiado a PDF](/blog/croquis-original.png "La entrada, exactamente como llegó. Veintidós cotas escritas a mano, notación decimal argentina, algunas rotadas para acompañar líneas verticales. Dos de estos números no pueden ser ciertos a la vez.")
 
-Esperaba que la parte difícil fuera leer la letra. No lo era. Un modelo actual mira esa página y saca los números y aproximadamente dónde están, y lo hace de una. **Leer era la parte fácil, y es la parte que todos esperan que sea difícil.**
+Esperaba que la parte difícil fuera descifrar la letra. No lo fue. Un modelo actual mira esa página, extrae los números y ubica aproximadamente dónde están, todo de una sola vez. **Leer era la parte fácil, aunque todos esperábamos que fuera la difícil.**
 
-La parte difícil es que leer produce una *creencia*, y una creencia sobre la letra de alguien es mala base para comprar 93 m² de cerámico. Así que lo primero que pedí no fue el área. Fue una forma de testear la lectura.
+El problema es que de esa lectura solo sale una *suposición*, y una suposición sobre la letra de alguien es una mala base para comprar 93 m² de cerámicos. Así que lo primero que pedí no fue el área, sino una forma de comprobar la lectura.
 
-## Convirtió el croquis en un test
+## Convirtió el croquis en una prueba
 
 La respuesta con la que volvió es obvia en retrospectiva y no se me había ocurrido. Cualquier contorno cerrado, recorrido una vez, vuelve al punto de partida. Los vectores de los lados suman cero. Para un plano alineado a los ejes las dos componentes se separan:
 
@@ -26,7 +26,7 @@ La respuesta con la que volvió es obvia en retrospectiva y no se me había ocur
 Σ dx = 0        Σ dy = 0
 ```
 
-Lo que significa que **un contorno completamente acotado está sobredeterminado**. Cada lado horizontal aparece en una ecuación, cada vertical en la otra, y nada en el acto de medir fuerza a que ninguna de las dos se cumpla. Esa redundancia es todo el punto: convierte *¿medí bien esto?* de un juicio a una cuenta.
+Eso significa que **un contorno completamente acotado está sobredeterminado**. Cada lado horizontal aparece en una ecuación, cada vertical en la otra, y nada en el acto de medir obliga a que alguna de las dos se cumpla. Ahí está la clave de la redundancia: convierte *¿medí bien esto?* en una cuenta, en vez de dejarlo librado al criterio de alguien.
 
 Escribió el chequeo como un script y lo corrió contra los números exactamente como estaban escritos en el croquis:
 
@@ -61,9 +61,9 @@ Ese es el patrón que vale la pena notar, y es por qué resolver restricciones l
 
 El cierre prueba que existe una inconsistencia. Atribuirla a un número específico necesita evidencia de afuera del sistema de restricciones, y yo no tenía ninguna — el dueño no iba a volver a medir las veintidós.
 
-Su idea fue usar el escaneo como evidencia, con el argumento de que un croquis dibujado en papel cuadriculado está aproximadamente a escala aunque no sea preciso. Esta es la movida que yo no habría hecho, y es lo más interesante de todo el ejercicio:
+Su idea fue usar el escaneo como evidencia, con el argumento de que un croquis dibujado en papel cuadriculado está aproximadamente a escala aunque no sea preciso. Yo nunca habría pensado en hacer eso, y me parece lo más interesante de todo el ejercicio:
 
-1. Rasterizar la página a una resolución conocida — `pdftoppm -r 200 -png -gray`.
+1. Convertir la página en una imagen a una resolución conocida — `pdftoppm -r 200 -png -gray`.
 2. Umbralizar. Los trazos de lapicera son mucho más oscuros que la grilla impresa, así que un corte en `pixel < 110` aísla el dibujo.
 3. Sumar la máscara booleana por cada eje. Un trazo recto largo produce un pico en la suma por columna (líneas verticales) o por fila (horizontales). Las corridas por encima de un umbral son las líneas dibujadas; el argmax dentro de cada corrida es su posición en píxeles.
 4. Fijar la escala con una cota confiable. El borde superior de `8,40` mide 650 px → 77,4 px/m.
@@ -84,13 +84,13 @@ Vale enunciar la precondición, porque acota el truco: esto solo funciona porque
 | Izquierda remedida | 5,80 + 5,50 = 11,30 | 2,60 + 9,00 = 11,60 | 30 cm — derecha **larga**, propuesta: 8,70 |
 | Izquierda remedida otra vez | 5,90 + 5,68 = 11,58 | 2,60 + 9,00 = 11,60 | **2 cm** — cierra |
 
-La ronda tres es el evento instructivo, y es la parte que querría que viera cualquiera que haga esto. Bajo la primera hipótesis la corrección a `9,00` era *hacia arriba*, a 9,50. Bajo la segunda era *hacia abajo*, a 8,70. Las dos se derivaron correctamente de los datos disponibles en ese momento. Se contradicen entre sí.
+La tercera ronda es la reveladora, y es la parte que querría que viera cualquiera que haga esto. Con la primera hipótesis, había que corregir `9,00` *hacia arriba*, a 9,50. Con la segunda, había que corregirlo *hacia abajo*, a 8,70. Ambas conclusiones se derivaron correctamente de los datos disponibles en cada momento, pero se contradicen entre sí.
 
 Un residuo te dice la magnitud de una inconsistencia, no su causa. La atribución es un problema aparte y solo se zanja con más mediciones. **Un agente que reporta la corrección propuesta sin reportar que es una de varias atribuciones posibles está produciendo un número que parece más firme de lo que es** — y tuve que pedir ese encuadre explícitamente antes de obtenerlo. Es en lo que más insistiría si volviera a hacer esto.
 
-Volver a correr el cierre después de cada corrección no costaba nada, que es la única razón por la que cuatro rondas fue practicable en vez de tedioso. Ese es el verdadero argumento para hacer del chequeo un programa en lugar de una lectura.
+Volver a ejecutar el cálculo de cierre después de cada corrección no costaba nada. Solo por eso fue posible hacer cuatro rondas sin que el proceso se volviera tedioso. Ese es el verdadero argumento para convertir la verificación en un programa, en vez de depender de una lectura manual.
 
-## Lo que cayó de arriba sin que nadie lo midiera
+## Lo que apareció sin que nadie lo midiera
 
 Una vez que el contorno cierra, el resto de la geometría queda determinado. Ninguno de los anchos de vereda se midió nunca; son consecuencias:
 
@@ -112,11 +112,11 @@ La vereda derecha es la excepción y también es instructiva: 0,54 m por cierre 
 
 ![El plano generado, vectorizado y completamente acotado](/blog/croquis-plano.png#wide "La salida. Los valores entre paréntesis no los midió nadie: son consecuencias de que el contorno cierre. Las regiones punteadas en verde son las piezas medidas por separado.")
 
-El plano limpio es generado, no dibujado: dos arreglos de vértices, uno para el contorno exterior y otro para la casa, convertidos a paths SVG en un loop. El texto de las cotas va en el punto medio de cada segmento con un offset por segmento, que es la única parte que necesita retoque manual — las etiquetas chocan, y dónde chocan no es predecible a partir de la geometría.
+El plano limpio no está dibujado a mano: se genera a partir de dos conjuntos de vértices, uno para el contorno exterior y otro para la casa, convertidos en trazados SVG dentro de un bucle. El texto de las cotas se ubica en el punto medio de cada segmento, con un desplazamiento particular. Esa es la única parte que requiere ajustes manuales: las etiquetas chocan, y la geometría por sí sola no permite prever dónde.
 
 La región pavimentada es un único path que usa los dos polígonos con `fill-rule="evenodd"`, así que la casa es un *agujero* y no algo que haya que restar descomponiendo la vereda en rectángulos. Eso importa más de lo que suena: la descomposición en rectángulos es donde normalmente se rompen las cuentas a mano de este tipo.
 
-El área sale de la fórmula de Gauss sobre los mismos arreglos:
+El área sale de aplicar la fórmula de Gauss a esos mismos conjuntos de vértices:
 
 ```
 A = ½ |Σ (xᵢ · yᵢ₊₁ − xᵢ₊₁ · yᵢ)|
@@ -134,14 +134,14 @@ Como el dibujo y el área salen de los mismos arreglos, no pueden estar en desac
 
 Un desvío que merece un párrafo, porque casi cuesta una tarde. El SVG generado hay que mirarlo, y un agente no puede mirar un archivo — tiene que renderizarlo a un raster y leer eso de vuelta.
 
-El `convert` de ImageMagick estaba en la máquina y renderizó el SVG **mal**: métricas de fuente incorrectas, `viewBox` mal manejado, una salida que parecía un bug serio en el generador. No lo era. Chrome headless renderizó el mismo archivo correctamente:
+La máquina tenía instalado `convert`, de ImageMagick, pero renderizó el SVG **mal**: métricas de fuente incorrectas, un `viewBox` mal interpretado y un resultado que parecía revelar un error grave en el generador. No era así. Chrome en modo headless renderizó correctamente el mismo archivo:
 
 ```bash
 google-chrome --headless --disable-gpu --screenshot=out.png \
   --window-size=1240,1150 --hide-scrollbars "file://$PWD/plan.html"
 ```
 
-Así se encontraron y corrigieron dos colisiones de etiquetas que eran invisibles en el código fuente. El punto más amplio: una herramienta de verificación que discrepa en silencio con el renderer objetivo es peor que no tener verificación, y la única forma de descubrirlo es contrastar su salida contra algo que ya sabés que está bien.
+Así se encontraron y corrigieron dos colisiones de etiquetas que eran invisibles en el código fuente. La conclusión más general: una herramienta de verificación que difiere en silencio del motor de renderizado final es peor que no verificar nada. La única forma de descubrirlo es comparar su resultado con algo que ya sabés que está bien.
 
 ## Lo que no pudo hacer
 
@@ -155,8 +155,8 @@ La división del trabajo es la misma con la que me sigo cruzando: el agente tien
 
 ## Qué generaliza
 
-1. **Cualquier artefacto medido con redundancia puede chequearse mecánicamente.** Los planos cierran. También las listas de materiales, los presupuestos de tiempos y los modelos financieros. La redundancia normalmente ya está ahí y simplemente no se ejercita.
-2. **Pedí el test antes que la respuesta.** No pregunté "cuál es el área". Pregunté cómo íbamos a saber que los números estaban mal. Todo lo útil salió de ese orden.
+1. **Cualquier artefacto medido con redundancia puede verificarse mecánicamente.** Los planos cierran. También las listas de materiales, las estimaciones de tiempo y los modelos financieros. La redundancia normalmente ya está ahí; simplemente no se aprovecha.
+2. **Pedí la prueba antes que la respuesta.** No pregunté «cuál es el área». Pregunté cómo íbamos a saber si los números estaban mal. Todo lo útil salió de ese orden.
 3. **Las estimaciones independientes son lo que hace posible la atribución.** El cierre encuentra el error; medir el escaneo apunta al culpable. Ninguna de las dos sola llega.
 4. **Hacé que reporte la ambigüedad, no solo la corrección.** La ronda tres habría sido un error caro si yo hubiera actuado sobre la ronda dos.
 5. **El dibujo y el número tienen que venir de una sola fuente de verdad**, o en algún momento van a discrepar y nadie se va a dar cuenta.

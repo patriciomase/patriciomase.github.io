@@ -1,37 +1,37 @@
 ---
 eyebrow: Flujos con IA · Herramientas
-title: Claude Code, apuntado a una impresora 3D
-lead: "Uso un agente de código todos los días para software. Esta vez lo apunté a un problema de hardware. Resulta que la pregunta interesante no es si sabe de impresoras 3D — es qué pasa cuando algo paciente, literal e incansable puede correr comandos y leer la salida."
-excerpt: "Uso un agente de código todos los días para software. Esta vez lo apunté a un problema de hardware. En qué fue mejor que yo, dónde se equivocó con seguridad, y el único descubrimiento que no podría haber hecho."
-metaDescription: "Uso un agente de código todos los días para software. Lo apunté a un problema de hardware — calibrar y depurar una impresora 3D — y encontró tres fallas con las que venía conviviendo hacía meses."
+title: Puse a Claude Code a trabajar con una impresora 3D
+lead: "Uso un agente de código todos los días para trabajar con software. Esta vez lo puse frente a un problema de hardware. La pregunta interesante no es si sabe de impresoras 3D, sino qué pasa cuando algo paciente, literal e incansable puede ejecutar comandos y leer los resultados."
+excerpt: "Uso un agente de código todos los días para trabajar con software. Esta vez lo puse frente a un problema de hardware: en qué fue mejor que yo, dónde se equivocó con absoluta seguridad y cuál fue el único descubrimiento que nunca podría haber hecho."
+metaDescription: "Uso un agente de código todos los días para trabajar con software. Esta vez lo puse a calibrar y depurar una impresora 3D, y encontró tres fallas con las que yo convivía desde hacía meses."
 ---
 
 ## Por qué esto funciona
 
-Los agentes de código se venden como cosas que escriben código. Ese encuadre los subestima, y por eso tardé en probar esto. La capacidad real es más angosta y más general al mismo tiempo: **pueden correr comandos, leer la salida y decidir qué correr después.**
+Los agentes de código se presentan como herramientas que escriben código. Esa descripción les queda chica, y por eso tardé en probar esto. Su verdadera capacidad es a la vez más acotada y más general: **pueden ejecutar comandos, leer el resultado y decidir qué ejecutar después.**
 
-Lo que significa que cualquier cosa que hable texto entra en juego. Y una impresora 3D habla texto — texto notablemente simple:
+Eso significa que cualquier cosa que se comunique mediante texto entra en juego. Y una impresora 3D habla en texto, uno sorprendentemente simple:
 
 - La placa aparece como un dispositivo serie, `/dev/ttyUSB0`.
 - El gcode es un protocolo ASCII por líneas. Mandás `M105` y recibís `ok T:23.79 /0.00 B:23.71 /0.00`.
 - El firmware expone toda su configuración con `M503`.
 - OctoPrint pone una API REST adelante de todo eso.
 
-Nada de eso es un problema de programación. Todo eso es un problema de "correr un comando, leer la respuesta", que es exactamente la forma en la que estas herramientas son buenas.
+Nada de eso es un problema de programación. Todo se reduce a «ejecutar un comando y leer la respuesta», justo el tipo de tarea que estas herramientas hacen bien.
 
-## Cómo es el loop en la práctica
+## Cómo funciona el ciclo en la práctica
 
 Mi impresora venía imprimiendo mal desde hacía meses. Las piezas se rajaban por las líneas de capa, y tenía que ajustar un offset de Z apenas distinto antes de cada impresión. Había dejado de tratar cualquiera de las dos cosas como un problema.
 
-El loop funcionaba así. El agente escribía un script de Python descartable, lo corría contra la impresora y leía lo que volvía. Yo hacía la mitad física — pasar una hoja de papel bajo la boquilla, sentir el roce, girar un tornillo, apretar un bulón — y reportaba lo que sentía. Después él decidía qué revisar a continuación.
+El ciclo funcionaba así: el agente escribía un script descartable en Python, lo ejecutaba contra la impresora y leía la respuesta. Yo hacía la parte física —pasar una hoja de papel bajo la boquilla, sentir el roce, girar un tornillo, apretar un bulón— y le contaba qué había sentido. Después decidía qué revisar.
 
-Un ejemplo real, y el momento en que dejé de ser escéptico. OctoPrint mostraba un gráfico de temperatura vacío aunque el firmware decía soportar reporte automático de temperatura. En vez de teorizar, el agente volcó los bytes crudos que salían del puerto serie:
+Este es un ejemplo real y el momento en que dejé de ser escéptico. OctoPrint mostraba un gráfico de temperatura vacío aunque el firmware aseguraba admitir el reporte automático de temperatura. En vez de teorizar, el agente volcó los bytes sin procesar que salían del puerto serie:
 
 ```
   TT::23.9523.95  //0.000.00  BB::23.7523.75  //0.000.00
 ```
 
-Un reporte normal se lee `T:23.95 /0.00 B:23.75 /0.00`. El firmware mandaba **dos copias de la misma línea, intercaladas campo por campo** — dos escritores golpeando un mismo buffer serie. Imposible de parsear para cualquiera.
+Un reporte normal se ve así: `T:23.95 /0.00 B:23.75 /0.00`. El firmware enviaba **dos copias de la misma línea, intercaladas campo por campo**: dos procesos escribiendo sobre el mismo búfer serie. Ningún programa podía interpretar eso.
 
 Yo no habría mirado ahí. Habría buscado el síntoma en Google, encontrado un hilo de foro y aplicado el arreglo con más votos. El agente bajó una capa por debajo de la abstracción que estaba mintiendo y leyó los bytes reales.
 
@@ -41,9 +41,9 @@ Yo no habría mirado ahí. Habría buscado el síntoma en Google, encontrado un 
 
 Después de flashear el firmware nuevo, la impresora quedó completamente muda. No con basura — muda. Eso se ve igual que hardware muerto, y es donde yo habría empezado a asustarme por una placa arruinada.
 
-En cambio barrió todos los baud rates plausibles en una sola pasada y encontró la respuesta en unos cuarenta segundos: el firmware nuevo corre a 250000 donde el de fábrica usaba 115200. Aburrido, sistemático, correcto.
+En cambio, probó todas las velocidades de transmisión plausibles en una sola pasada y encontró la respuesta en unos cuarenta segundos: el firmware nuevo funciona a 250000 baudios; el de fábrica usaba 115200. Aburrido, sistemático, correcto.
 
-La misma paciencia apareció al releer una malla de cama de 25 puntos, verificar que los 25 sobrevivieran una recarga desde la EEPROM y re-verificar la configuración después de cada reescritura. Eso es trabajo que yo habría salteado.
+Mostró la misma paciencia al releer una malla de cama de 25 puntos, comprobar que todos sobrevivieran a una recarga desde la EEPROM y volver a verificar la configuración después de cada cambio. Yo me habría salteado todo ese trabajo.
 
 ### Convierte "se siente mejor" en una prueba
 
@@ -51,18 +51,18 @@ Esto fue lo más valioso, y lo menos esperado.
 
 Cuando sospechamos que el eje Z estaba perdiendo posición, apreté un par de bulones y dije que se sentía firme. Eso no fue aceptado como evidencia. En cambio recibí dos pruebas de aceptación, definidas _antes_ del arreglo:
 
-- **Repetibilidad de homing** — hacer homing, ir a un punto fijo, prueba del papel, cinco veces. Las cinco tienen que sentirse idénticas.
-- **Retención en movimiento** — ciclar el eje Z arriba y abajo quince veces, cerca de un metro y medio de recorrido de husillo, y volver al mismo punto _sin volver a hacer homing_. El roce tiene que estar igual.
+- **Repetibilidad del origen** — llevar el eje al origen, moverlo hasta un punto fijo y hacer la prueba del papel cinco veces. Las cinco tienen que sentirse idénticas.
+- **Conservación de la posición** — mover el eje Z hacia arriba y abajo quince veces —cerca de un metro y medio de recorrido del husillo— y volver al mismo punto _sin regresar al origen_. El roce tiene que ser el mismo.
 
-Las dos pasaron. Esa es una calidad de confianza distinta a "parece que anda bien", y es una disciplina que aplico constantemente en software y que nunca había aplicado a mi propia impresora.
+Las dos pasaron. Eso da una confianza muy distinta de «parece que anda bien». Es una disciplina que aplico constantemente al software y que nunca había aplicado a mi propia impresora.
 
 ### Escribe todo mientras avanza
 
-Al final había un repositorio privado con el binario del firmware que realmente corre en la máquina y su checksum, un volcado de la EEPROM previo al flasheo, la malla de la cama, los valores de calibración con el razonamiento detrás de cada uno, y los scripts usados para verificarlos.
+Al final había un repositorio privado con el binario exacto del firmware instalado y su suma de comprobación, un volcado de la EEPROM anterior al flasheo, la malla de la cama, los valores de calibración con el razonamiento detrás de cada uno y los scripts usados para verificarlos.
 
 No pedí la mayor parte de eso. Se acumuló como efecto secundario, y es la diferencia entre haber arreglado una impresora y poder volver a arreglarla dentro de un año.
 
-Un detalle me quedó grabado. Descubrimos que la malla de la cama sobrevive a un apagado pero el flag que la _habilita_ no — así que una impresión ignora la malla en silencio a menos que el gcode de inicio la vuelva a prender. En vez de escribir eso en un comentario y confiar, fue directo al script de laminado como un chequeo duro:
+Un detalle me quedó grabado. Descubrimos que la malla de la cama sobrevive a un apagado, pero la opción que la _habilita_ no. Por lo tanto, una impresión ignora la malla sin avisar, a menos que el gcode de inicio vuelva a activarla. En vez de dejarlo escrito en un comentario y confiar, lo convirtió en una validación obligatoria del script de laminado:
 
 ```bash
 if grep -q 'M420 S1' "$OUT"; then
@@ -73,7 +73,7 @@ else
 fi
 ```
 
-El script ahora se niega a mandar gcode que ignoraría la malla. Una lección convertida en barandilla. Es un instinto muy de software aplicado a una máquina física, y está bien que así sea.
+Ahora el script se niega a enviar un gcode que ignoraría la malla. Una lección convertida en mecanismo de seguridad. Es un instinto muy propio del software aplicado a una máquina física, y funciona.
 
 ## Dónde se equivocó
 
@@ -83,7 +83,7 @@ Esta parte importa más que los aciertos, porque un asistente que no podés cali
 
 Premisa razonable. Conclusión equivocada — porque asumía hardware de fábrica, y yo tengo un extrusor de terceros. Apenas lo mencioné, junto con el hecho de que venía corriendo 125% de flujo hacía meses para que las piezas no se rajaran, se corrigió al instante y dijo que su objeción anterior partía de una suposición mala. La medición era correcta. Mi impresora realmente venía alimentando dos tercios de lo que se le pedía.
 
-**Advirtió de más.** Insistió en que una calibración térmica era inválida porque había filamento cargado. La rehicimos bien. La diferencia fue cerca del 1%. Lo dijo claramente después en vez de pasar de largo, cosa que valoro, pero perdí diez minutos.
+**Fue demasiado precavido.** Insistió en que una calibración térmica no era válida porque había filamento cargado. La repetimos como correspondía. La diferencia fue de alrededor del 1 %. Después lo reconoció con claridad en vez de hacer como si nada, cosa que valoro, pero yo había perdido diez minutos.
 
 **Sacó un workaround demasiado pronto.** Una sola prueba exitosa lo convenció de que un bug de firmware estaba arreglado, así que borró la mitigación. La conexión se moría noventa segundos después, todas las veces, de una manera que se ve exactamente igual que hardware muerto. Volvió a poner la mitigación con un comentario que ahora dice: _no sacar esto de nuevo sin mirar la conexión por más de dos minutos._
 
@@ -119,6 +119,6 @@ Tres fallas, cada una tapando a las otras: pasos del extrusor errados por un 48%
 
 La primera impresión después salió más limpia que cualquier cosa que la máquina haya hecho cuando era nueva.
 
-Nada de eso requirió que el agente supiera de impresión 3D. Requirió que pudiera correr comandos, leer la salida, hacer cuentas sin cansarse y anotar lo que aprendía. Es una herramienta mucho más amplia de lo que sugiere "te escribe el código" — y es la razón por la que ahora la agarro para problemas que no tienen nada que ver con software.
+Nada de eso requirió que el agente supiera de impresión 3D. Solo necesitó ejecutar comandos, leer los resultados, hacer cuentas sin cansarse y anotar lo que aprendía. Es una herramienta mucho más amplia de lo que sugiere «te escribe el código», y por eso ahora recurro a ella para problemas que no tienen nada que ver con software.
 
 La terminal resulta ser una interfaz bastante universal. La mayoría de las cosas que vale la pena depurar ya están del otro lado.
