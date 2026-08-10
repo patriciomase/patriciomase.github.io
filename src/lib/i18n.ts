@@ -63,6 +63,10 @@ const en = {
   "work.card4.body":
     "A shared budget manager for households where several family members track expenses together. Everyone can log spending, review clear charts, organize recurring bills, and keep the monthly budget in order from the web or mobile. It also supports credit-card installments, multiple currencies, and inflation tracking.",
   "work.card4.link": "gastoscasa.com",
+  "work.card5.title": "Vivaire",
+  "work.card5.body":
+    "A guided breathing app for web and mobile. People can build custom routines, follow timed sessions with audio and haptic cues, schedule reminders, review streaks and progress, sync their activity, and share sessions by link.",
+  "work.card5.link": "vivaire.app",
   "experience.title": "Experience",
   "experience.note":
     "A career building web products end to end: system architecture, product delivery, performance, observability, and shipping across the stack.",
@@ -154,6 +158,10 @@ const es: Record<MessageKey, string> = {
   "work.card4.body":
     "Un gestor de presupuesto para hogares en los que varios integrantes de la familia administran los gastos juntos. Cada persona puede registrar consumos, revisar gráficos claros, organizar gastos recurrentes y mantener el presupuesto mensual en orden desde la web o el celular. También permite administrar cuotas de tarjeta, trabajar con varias monedas y seguir la inflación.",
   "work.card4.link": "gastoscasa.com",
+  "work.card5.title": "Vivaire",
+  "work.card5.body":
+    "Una aplicación de respiración guiada para web y dispositivos móviles. Permite crear rutinas personalizadas, seguir sesiones temporizadas con señales de audio y vibración, programar recordatorios, consultar rachas y avances, sincronizar la actividad y compartir sesiones mediante un enlace.",
+  "work.card5.link": "vivaire.app",
   "experience.title": "Experiencia",
   "experience.note":
     "Una trayectoria creando productos web de punta a punta: arquitectura de sistemas, entrega de producto, rendimiento, observabilidad y desarrollo en todas las capas.",

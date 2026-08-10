@@ -344,6 +344,15 @@ h2 {
   box-shadow: var(--shadow-md);
 }
 
+/* Keep an odd final project from leaving an empty half-row. */
+.card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.card:last-child:nth-child(odd) p {
+  max-width: 720px;
+}
+
 .card-top {
   display: flex;
   align-items: center;

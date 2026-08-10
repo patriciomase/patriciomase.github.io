@@ -49,6 +49,15 @@ const WORK_CARDS: {
     hrefLabel: "work.card4.link",
     icon: "/logos/gastoscasa.png",
   },
+  {
+    tag: "work.card4.tag",
+    when: "work.ongoing",
+    title: "work.card5.title",
+    body: "work.card5.body",
+    href: "https://vivaire.app",
+    hrefLabel: "work.card5.link",
+    icon: "/logos/vivaire.svg",
+  },
 ];
 
 /**
