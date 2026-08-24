@@ -15,6 +15,8 @@ Ubuntu 24.04, GNOME Shell 46. El menú superior derecho (Quick Settings, en la t
 
 Hacer clic en cualquier parte del lado izquierdo apaga el Bluetooth. Es fácil de tocar por error cuando la intención era abrir la lista de dispositivos, y no hay forma de deshacerlo. El objetivo era deshabilitar ese clic accidental sin afectar el resto de la funcionalidad del menú.
 
+La extensión está en GitHub: [patriciomase/gnome-bluetooth-toggle-guard](https://github.com/patriciomase/gnome-bluetooth-toggle-guard).
+
 ## Ubicar el control en el código de GNOME Shell
 
 Los toggles de Quick Settings de GNOME Shell están definidos en `resource:///org/gnome/shell/ui/quickSettings.js`. La entrada de Bluetooth es un `BluetoothToggle`, que extiende `QuickMenuToggle`. Un `QuickMenuToggle` se arma con dos actores hermanos dentro de su `_box`:
@@ -107,8 +109,10 @@ export default class BluetoothToggleGuardExtension extends Extension {
 Las extensiones de GNOME Shell sin metadata en el repositorio oficial se pueden cargar desde un directorio local nombrado con su UUID:
 
 ```bash
+git clone https://github.com/patriciomase/gnome-bluetooth-toggle-guard.git
 mkdir -p ~/.local/share/gnome-shell/extensions/bluetooth-toggle-guard@local
-# crear metadata.json y extension.js en ese directorio con el contenido de arriba
+cp gnome-bluetooth-toggle-guard/{extension.js,metadata.json} \
+   ~/.local/share/gnome-shell/extensions/bluetooth-toggle-guard@local/
 ```
 
 Después habilitarla:

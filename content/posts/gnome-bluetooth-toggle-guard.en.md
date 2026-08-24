@@ -18,6 +18,8 @@ Ubuntu 24.04, GNOME Shell 46. The top-right system menu (GNOME calls it Quick Se
 
 Clicking anywhere on the left side turns Bluetooth off. It is easy to hit by accident when you meant to open the device list, and there is no undo prompt. The goal was to disable that accidental-click behavior without touching the menu functionality.
 
+The extension is on GitHub: [patriciomase/gnome-bluetooth-toggle-guard](https://github.com/patriciomase/gnome-bluetooth-toggle-guard).
+
 ## Locating the control in GNOME Shell's source
 
 GNOME Shell's Quick Settings toggles are defined in `resource:///org/gnome/shell/ui/quickSettings.js`. The Bluetooth entry is a `BluetoothToggle`, which extends `QuickMenuToggle`. A `QuickMenuToggle` is built from two sibling actors inside its `_box`:
@@ -110,8 +112,10 @@ export default class BluetoothToggleGuardExtension extends Extension {
 GNOME Shell extensions with no metadata in the official repository can be loaded from a local directory named after their UUID:
 
 ```bash
+git clone https://github.com/patriciomase/gnome-bluetooth-toggle-guard.git
 mkdir -p ~/.local/share/gnome-shell/extensions/bluetooth-toggle-guard@local
-# create metadata.json and extension.js in that directory with the contents above
+cp gnome-bluetooth-toggle-guard/{extension.js,metadata.json} \
+   ~/.local/share/gnome-shell/extensions/bluetooth-toggle-guard@local/
 ```
 
 Then enable it:
