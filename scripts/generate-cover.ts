@@ -23,11 +23,15 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "posts");
 const OUTPUT_DIR = path.join(process.cwd(), "public", "blog");
 const WIDTH = 1200;
 const HEIGHT = 630;
+// The default "flux" model tends to render any abstract prompt as the same
+// generic white plastic blob. "turbo" is far more literal and actually draws
+// the subject you describe.
+const MODEL = "turbo";
 
 const STYLE =
-  "Minimal, modern editorial illustration for a software engineering blog. " +
-  "Clean geometric shapes, limited muted color palette, plenty of negative " +
-  "space, no text or letters in the image, no logos, no photorealistic faces.";
+  "Photograph, editorial tech blog style, single clear literal subject in " +
+  "focus, shallow depth of field, muted neutral background, no readable " +
+  "text, no logos, no screens showing UI text.";
 
 async function existingCover(slug: string): Promise<string | undefined> {
   const files = await readdir(OUTPUT_DIR).catch(() => []);
@@ -67,6 +71,7 @@ async function main() {
   const url = new URL(`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`);
   url.searchParams.set("width", String(WIDTH));
   url.searchParams.set("height", String(HEIGHT));
+  url.searchParams.set("model", MODEL);
   // Keeps the prompt (and this post's title) out of Pollinations' public feed.
   url.searchParams.set("private", "true");
 
