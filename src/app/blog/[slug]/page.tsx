@@ -4,6 +4,7 @@ import { PostArticle } from "@/components/PostArticle";
 import { TrackView } from "@/components/TrackView";
 import { getPublishedPost, listPublishedPosts } from "@/lib/posts";
 import { renderMarkdown } from "@/lib/markdown";
+import { getCoverImage } from "@/lib/coverImage";
 
 export const revalidate = 60;
 
@@ -26,9 +27,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Not found — Patricio Gabriel Maseda" };
   }
 
+  const title = `${post.titleEn} — Patricio Gabriel Maseda`;
+  const cover = await getCoverImage(post.slug);
+  const images = cover
+    ? [{ url: cover.path, width: cover.width, height: cover.height, alt: post.titleEn }]
+    : undefined;
+
   return {
-    title: `${post.titleEn} — Patricio Gabriel Maseda`,
+    title,
     description: post.metaDescriptionEn,
+    openGraph: {
+      title,
+      description: post.metaDescriptionEn,
+      type: "article",
+      publishedTime: post.publishedAt?.toISOString(),
+      url: `/blog/${post.slug}`,
+      images,
+    },
+    twitter: {
+      card: images ? "summary_large_image" : "summary",
+      title,
+      description: post.metaDescriptionEn,
+      images,
+    },
   };
 }
 
@@ -40,10 +61,13 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
+  const cover = await getCoverImage(post.slug);
+
   return (
     <>
       <TrackView path={`/blog/${post.slug}`} />
       <PostArticle
+        cover={cover}
         post={{
           slug: post.slug,
           publishedAt: post.publishedAt?.toISOString() ?? null,

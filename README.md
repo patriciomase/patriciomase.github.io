@@ -142,6 +142,26 @@ If a file can't be measured (a remote URL, or a format `image-size` can't
 read), it falls back to a plain `<img>` — the stylesheet still constrains it,
 so that degrades in quality, never in layout.
 
+### Cover images
+
+```bash
+npm run generate-cover -- <slug>                 # generate public/blog/<slug>-cover.*
+npm run generate-cover -- <slug> --force         # overwrite an existing cover
+npm run generate-cover -- <slug> --prompt "..."  # override the auto-built prompt
+```
+
+Generates a banner via Pollinations.ai's free image API — no API key, so
+nothing to leak. Run it, open the file, and check it before committing;
+quality varies and anonymous requests can carry a watermark. There's no
+database column for this: `public/blog/<slug>-cover.*` is the whole
+convention, read at render time by `src/lib/coverImage.ts`.
+
+Whenever that file exists, the post page (`src/app/blog/[slug]/page.tsx`)
+renders it as a hero banner above the body and sets it as the `og:image` /
+`twitter:image` for that post, so link previews on social and messaging apps
+pick it up automatically. No cover file, no image tags — nothing else to
+configure per post.
+
 Article links are styled by `.post-prose a`, which matches the rendered body
 only. The "All posts" link below the article is a sibling of that element, so
 it keeps its own styling.

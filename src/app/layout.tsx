@@ -17,6 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://patriciomase.com"),
   title: "Patricio Gabriel Maseda",
   description: messages.en.metaDescription,
 };

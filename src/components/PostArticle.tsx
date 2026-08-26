@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "./LanguageProvider";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { formatPostDate } from "@/lib/i18n";
+import type { CoverImage } from "@/lib/coverImage";
 
 export type PostView = {
   slug: string;
@@ -26,10 +28,12 @@ export type PostView = {
  */
 export function PostArticle({
   post,
+  cover,
   bodyEn,
   bodyEs,
 }: {
   post: PostView;
+  cover: CoverImage | null;
   bodyEn: React.ReactNode;
   bodyEs: React.ReactNode;
 }) {
@@ -56,6 +60,19 @@ export function PostArticle({
           {meta && <p className="post-meta">{meta}</p>}
           <p className="post-lead">{lead}</p>
         </div>
+
+        {cover && (
+          <div className="wrap-narrow post-hero">
+            <Image
+              src={cover.path}
+              alt={title}
+              width={cover.width}
+              height={cover.height}
+              priority
+              sizes="(max-width: 1040px) 100vw, 960px"
+            />
+          </div>
+        )}
 
         <article className="wrap-narrow post-body">
           <div className="post-prose">{body}</div>

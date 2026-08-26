@@ -723,6 +723,31 @@ footer.bordered {
   letter-spacing: -0.005em;
 }
 
+.post-hero {
+  margin-bottom: 40px;
+}
+
+.post-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+/* Matches the `.wide` treatment on body images: let the banner breathe past
+   the reading column on a large screen, sized in px so 100vw's scrollbar
+   doesn't reintroduce sideways scroll. (960 - 780) / 2 keeps it centred on
+   the 780px column the way `.post-hero` itself is centred by `.wrap-narrow`. */
+@media (min-width: 1040px) {
+  .post-hero img {
+    width: 960px;
+    max-width: none;
+    margin-left: -90px;
+  }
+}
+
 /* Article prose. Set larger and looser than the UI: this is the one place on
    the site meant to be read for ten minutes rather than scanned. */
 .post-body {

@@ -10,7 +10,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "publish": "tsx scripts/publish.ts"
+    "publish": "tsx scripts/publish.ts",
+    "generate-cover": "tsx scripts/generate-cover.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
