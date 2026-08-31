@@ -2,8 +2,8 @@ import { pgTable, uuid, text, integer, timestamp, date, unique } from "drizzle-o
 
 /**
  * Mirrors the `messages` and `page_views` tables owned by the main site
- * (patriciomase-web/src/db/schema.ts). This app only reads them, so it
- * keeps its own minimal copy rather than depending across projects.
+ * (patriciomase-web/src/db/schema.ts). This app keeps its own minimal copy
+ * rather than depending across projects.
  */
 
 export const messages = pgTable("messages", {

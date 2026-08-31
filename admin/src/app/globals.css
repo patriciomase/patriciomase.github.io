@@ -120,6 +120,26 @@ th {
   white-space: pre-wrap;
 }
 
+.delete-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 section {
   margin-bottom: 32px;
 }

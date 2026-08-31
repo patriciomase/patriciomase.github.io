@@ -1,5 +1,6 @@
 "use server";
 
+import { checkBotId } from "botid/server";
 import { recordContactSubmission, type ContactStatus } from "@/lib/contact";
 
 export type ContactState = {
@@ -18,6 +19,13 @@ export async function submitContact(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
+  // Same trick as the honeypot in recordContactSubmission: pretend it
+  // worked so the bot doesn't retry with a different shape.
+  const { isBot } = await checkBotId();
+  if (isBot) {
+    return { status: "success" };
+  }
+
   const status = await recordContactSubmission({
     name: String(formData.get("name") ?? ""),
     email: String(formData.get("email") ?? ""),

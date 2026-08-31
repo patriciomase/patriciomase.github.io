@@ -1,9 +1,9 @@
 # patriciomase admin
 
 Internal panel to read the `messages` (contact form) and `page_views` tables
-that the main site (`patriciomase-web`) writes to. Read-only, no auth code of
-its own — access control is Vercel's own login gate ("Vercel Authentication" /
-SSO deployment protection), not anything in this app.
+that the main site (`patriciomase-web`) writes to, and delete messages. No
+auth code of its own — access control is Vercel's own login gate ("Vercel
+Authentication" / SSO deployment protection), not anything in this app.
 
 Live at: https://patriciomase-admin-preview.vercel.app (log in with the
 `patriciomase` Vercel account to view it).

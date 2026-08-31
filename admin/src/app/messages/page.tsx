@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { messages } from "@/db/schema";
 import { desc } from "drizzle-orm";
+import { DeleteMessageButton } from "./DeleteMessageButton";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,7 @@ export default async function MessagesPage() {
               <th>From</th>
               <th>Message</th>
               <th>Lang</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -41,6 +43,9 @@ export default async function MessagesPage() {
                 <td className="body-cell">{m.body}</td>
                 <td>
                   <span className="badge">{m.locale}</span>
+                </td>
+                <td>
+                  <DeleteMessageButton id={m.id} />
                 </td>
               </tr>
             ))}
