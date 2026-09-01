@@ -49,7 +49,7 @@ const en = {
   "work.card1.tag": "Product engineering",
   "work.card1.title": "Building-wide PTAC control",
   "work.card1.body":
-    "A dashboard for operating the PTAC units across entire rental buildings. Operators trigger remote actions on a unit or a whole property, schedule device state changes ahead of time, pull usage reports, and manage account-level access to each building. Devices report over AWS IoT, so the interface has to stay honest about fleet state that arrives asynchronously.",
+    "A dashboard for remotely operating PTAC units, single unit or building-wide.",
   "work.card2.tag": "Applications",
   "work.card2.title": "Guided intake and follow-up",
   "work.card2.body":
@@ -144,7 +144,7 @@ const es: Record<MessageKey, string> = {
   "work.card1.tag": "Ingeniería de producto",
   "work.card1.title": "Control de equipos PTAC en edificios completos",
   "work.card1.body":
-    "Un panel para controlar las unidades PTAC de edificios completos destinados a alquiler. Los operadores pueden ejecutar acciones remotas sobre un equipo o todo un edificio, programar cambios de estado, consultar informes de uso y administrar el acceso de cada cuenta. Los dispositivos se comunican mediante AWS IoT, por lo que la interfaz debe reflejar con claridad un estado de flota que se actualiza de forma asincrónica.",
+    "Un panel para operar de forma remota unidades PTAC, por equipo o por edificio.",
   "work.card2.tag": "Aplicaciones",
   "work.card2.title": "Formularios guiados y seguimiento",
   "work.card2.body":
