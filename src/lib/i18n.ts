@@ -77,7 +77,7 @@ const en = {
   "experience.avalith.role": "PHP Backend Software Engineer",
   "experience.education.role": "Técnico Superior en Programación",
   "about.eyebrow": "About",
-  "about.title": "I like software that gets out of the way.",
+  "about.title": "I build things that don't get in the way.",
   "about.body1":
     "I work across product, architecture, and implementation details, with a bias toward tools that are clear, fast, and easy to maintain. I have been building software since 2011: designing systems, writing backend services, building interfaces, and owning delivery, monitoring, and hiring.",
   "about.body2":
@@ -172,7 +172,7 @@ const es: Record<MessageKey, string> = {
   "experience.avalith.role": "PHP Backend Software Engineer",
   "experience.education.role": "Técnico Superior en Programación",
   "about.eyebrow": "Sobre mí",
-  "about.title": "Me gusta el software que no se interpone.",
+  "about.title": "Hago software que resuelve.",
   "about.body1":
     "Trabajo en la intersección entre producto, arquitectura e implementación, con preferencia por herramientas claras, rápidas y fáciles de mantener. Desarrollo software desde 2011: diseño sistemas, escribo servicios de backend, construyo interfaces y me hago cargo de la entrega, el monitoreo y la formación de equipos.",
   "about.body2":
