@@ -69,7 +69,7 @@ const en = {
   "work.card5.link": "vivaire.app",
   "work.card6.title": "FATBEATS.org",
   "work.card6.body":
-    "A microphone-driven audiovisual playground for the browser, inspired by the classic Winamp AVS visualizers. Live sound from the mic drives a dozen visual modes built on the Web Audio API and Canvas, with sensitivity and color presets adjustable while they run. The audio never leaves the browser and is never recorded.",
+    "A microphone-driven audiovisual playground that runs entirely in the browser. Live sound from the room drives a dozen visual modes built on the Web Audio API and Canvas, with sensitivity and color presets adjustable while they run. The audio never leaves the browser and is never recorded.",
   "work.card6.link": "fatbeats.org",
   "experience.title": "Experience",
   "experience.note":
@@ -168,7 +168,7 @@ const es: Record<MessageKey, string> = {
   "work.card5.link": "vivaire.app",
   "work.card6.title": "FATBEATS.org",
   "work.card6.body":
-    "Un espacio audiovisual para el navegador que reacciona al micrófono, inspirado en los clásicos visualizadores de Winamp AVS. El sonido en vivo alimenta una docena de modos visuales hechos con la Web Audio API y Canvas, con sensibilidad y paletas de color ajustables mientras corren. El audio nunca sale del navegador ni se graba.",
+    "Un experimento audiovisual que corre en el navegador y responde al micrófono en tiempo real. El sonido del ambiente se convierte en una docena de modos visuales hechos con la Web Audio API y Canvas, y tanto la sensibilidad como la paleta de colores se ajustan sobre la marcha. El audio no sale del navegador ni queda grabado.",
   "work.card6.link": "fatbeats.org",
   "experience.title": "Experiencia",
   "experience.note":
