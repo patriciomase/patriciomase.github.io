@@ -67,6 +67,10 @@ const en = {
   "work.card5.body":
     "A guided breathing app for web and mobile. People can build custom routines, follow timed sessions with audio and haptic cues, schedule reminders, review streaks and progress, sync their activity, and share sessions by link.",
   "work.card5.link": "vivaire.app",
+  "work.card6.title": "FATBEATS.org",
+  "work.card6.body":
+    "A microphone-driven audiovisual playground for the browser, inspired by the classic Winamp AVS visualizers. Live sound from the mic drives a dozen visual modes built on the Web Audio API and Canvas, with sensitivity and color presets adjustable while they run. The audio never leaves the browser and is never recorded.",
+  "work.card6.link": "fatbeats.org",
   "experience.title": "Experience",
   "experience.note":
     "A career building web products end to end: system architecture, product delivery, performance, observability, and shipping across the stack.",
@@ -162,6 +166,10 @@ const es: Record<MessageKey, string> = {
   "work.card5.body":
     "Una aplicación de respiración guiada para web y dispositivos móviles. Permite crear rutinas personalizadas, seguir sesiones temporizadas con señales de audio y vibración, programar recordatorios, consultar rachas y avances, sincronizar la actividad y compartir sesiones mediante un enlace.",
   "work.card5.link": "vivaire.app",
+  "work.card6.title": "FATBEATS.org",
+  "work.card6.body":
+    "Un espacio audiovisual para el navegador que reacciona al micrófono, inspirado en los clásicos visualizadores de Winamp AVS. El sonido en vivo alimenta una docena de modos visuales hechos con la Web Audio API y Canvas, con sensibilidad y paletas de color ajustables mientras corren. El audio nunca sale del navegador ni se graba.",
+  "work.card6.link": "fatbeats.org",
   "experience.title": "Experiencia",
   "experience.note":
     "Una trayectoria creando productos web de punta a punta: arquitectura de sistemas, entrega de producto, rendimiento, observabilidad y desarrollo en todas las capas.",

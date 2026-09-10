@@ -58,6 +58,14 @@ const WORK_CARDS: {
     hrefLabel: "work.card5.link",
     icon: "/logos/vivaire.svg",
   },
+  {
+    tag: "work.card4.tag",
+    when: "work.ongoing",
+    title: "work.card6.title",
+    body: "work.card6.body",
+    href: "https://fatbeats.org",
+    hrefLabel: "work.card6.link",
+  },
 ];
 
 /**
