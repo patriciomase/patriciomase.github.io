@@ -17,7 +17,16 @@ export default function AdminRootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider signInUrl="/a/sign-in" afterSignOutUrl="/a/sign-in">
+    <ClerkProvider
+      signInUrl="/a/sign-in"
+      afterSignOutUrl="/a/sign-in"
+      /* Where signing in lands you when nothing else asked for a page --
+         someone who opened /a/sign-in directly. Clerk's own default is "/",
+         which is the public homepage here. "fallback" rather than "force" so
+         that being bounced off /a/stats still returns you to /a/stats. */
+      signInFallbackRedirectUrl="/a"
+      signUpFallbackRedirectUrl="/a"
+    >
       <html lang="en">
         <body>{children}</body>
       </html>
