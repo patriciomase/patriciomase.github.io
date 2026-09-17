@@ -12,12 +12,14 @@ markup is preserved in this repo's history at commit `8e62579`.
 - Neon Postgres via `@neondatabase/serverless` + Drizzle ORM
 - Plain CSS (`src/app/globals.css`) — no framework, so the original design ports
   across unchanged
+- Clerk (Vercel Marketplace integration) on the `/a` admin panel only
 
 ## Local development
 
 ```bash
 npm install
 cp .env.example .env   # then fill in DATABASE_URL, or: vercel env pull .env
+vercel env pull .env.local   # Clerk keys + ADMIN_EMAILS, for the /a panel
 npm run db:migrate     # apply schema
 npm run publish        # load content/posts/*.md into the database
 npm run dev
@@ -40,6 +42,33 @@ npm run db:generate    # write a migration from schema.ts
 npm run db:migrate     # apply it
 npm run db:studio      # browse the data
 ```
+
+## Admin panel
+
+`/a` reads the `messages` and `page_views` tables and can delete messages. It
+lives at `src/app/(admin)/`, in its own route group with its own root layout, so
+it inherits none of the public site's chrome, stylesheet or PostHog pageviews.
+
+Two independent gates gets you in:
+
+- **Clerk** decides *whether you are signed in*. `src/proxy.ts` runs
+  `clerkMiddleware` over `/a` only — the public site never sees it — and the
+  keys come from the Vercel Marketplace integration (`vercel integration add
+  clerk`), which provisions `CLERK_SECRET_KEY` and
+  `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` on the project.
+- **`ADMIN_EMAILS`** decides *whether you are allowed*. Clerk authenticates
+  anyone who signs up, so `requireAdmin()` (`src/lib/admin.ts`) checks the
+  signed-in user's verified email against that comma-separated list and 404s
+  anyone else.
+
+`requireAdmin()` is called in every admin page **and** in every admin server
+action, not once in the layout: Next.js re-renders a page without re-running its
+layout, and a server action runs neither. Keep that up when adding pages there.
+
+This replaced a separate `patriciomase-admin` Vercel project that had no auth
+code of its own and relied on Vercel Authentication for preview deployments —
+which meant it could never be promoted to production without becoming publicly
+readable. That project and its `admin/` directory are gone.
 
 ## Publishing a post
 

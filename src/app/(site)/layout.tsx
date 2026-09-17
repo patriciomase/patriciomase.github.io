@@ -5,7 +5,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { PostHogPageView } from "@/components/PostHogPageView";
 import { messages } from "@/lib/i18n";
-import "./globals.css";
+import "../globals.css";
 
 /**
  * The design has always asked for Inter -- it was first in the font stack --

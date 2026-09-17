@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { pageViews } from "@/db/schema";
 import { sql, desc, gte } from "drizzle-orm";
+import { requireAdmin } from "@/lib/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,8 @@ function daysAgo(n: number) {
 }
 
 export default async function StatsPage() {
+  await requireAdmin();
+
   const byPath = await db
     .select({
       path: pageViews.path,

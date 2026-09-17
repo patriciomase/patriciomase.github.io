@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { messages } from "@/db/schema";
 import { desc } from "drizzle-orm";
+import { requireAdmin } from "@/lib/admin";
 import { DeleteMessageButton } from "./DeleteMessageButton";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +14,8 @@ function formatDate(d: Date) {
 }
 
 export default async function MessagesPage() {
+  await requireAdmin();
+
   const rows = await db.select().from(messages).orderBy(desc(messages.createdAt)).limit(200);
 
   return (

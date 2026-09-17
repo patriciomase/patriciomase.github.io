@@ -1,3 +1,7 @@
+/* Styles for /a only. Loaded by the admin root layout, so none of this
+ * reaches the public site's stylesheet (globals.css) or the other way
+ * round -- the two share custom-property names but never a page. */
+
 :root {
   --bg: #0b0d10;
   --panel: #14171b;
@@ -149,4 +153,10 @@ h2 {
   color: var(--muted);
   font-weight: 500;
   margin: 0 0 12px;
+}
+
+.sign-in {
+  display: flex;
+  justify-content: center;
+  padding: 72px 20px;
 }
