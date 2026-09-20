@@ -6,6 +6,7 @@ import { useLanguage } from "./LanguageProvider";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { ContactForm } from "./ContactForm";
+import { ScrollReveal } from "./ScrollReveal";
 import type { MessageKey } from "@/lib/i18n";
 
 /**
@@ -139,6 +140,7 @@ export function PortfolioPage() {
 
   return (
     <>
+      <ScrollReveal />
       <SiteHeader />
 
       <main id="top">
@@ -169,11 +171,11 @@ export function PortfolioPage() {
 
         <section id="work">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head" data-reveal>
               <h2>{t("work.title")}</h2>
               <p className="section-note">{t("work.note")}</p>
             </div>
-            <div className="grid">
+            <div className="grid" data-reveal-stagger>
               {WORK_CARDS.map((card) => (
                 <article className="card" key={card.title}>
                   <div className="card-top">
@@ -208,11 +210,11 @@ export function PortfolioPage() {
 
         <section id="experience">
           <div className="wrap">
-            <div className="section-head">
+            <div className="section-head" data-reveal>
               <h2>{t("experience.title")}</h2>
               <p className="section-note">{t("experience.note")}</p>
             </div>
-            <div className="experience-list">
+            <div className="experience-list" data-reveal-stagger>
               {EXPERIENCE.map((item) => (
                 <article className="experience-item" key={item.company}>
                   <div className="experience-main">
@@ -241,7 +243,7 @@ export function PortfolioPage() {
         </section>
 
         <section id="about">
-          <div className="wrap about">
+          <div className="wrap about" data-reveal-stagger>
             <div>
               <p className="eyebrow">{t("about.eyebrow")}</p>
               <h2>{t("about.title")}</h2>
@@ -268,7 +270,7 @@ export function PortfolioPage() {
 
         <section id="contact">
           <div className="wrap">
-            <div className="contact">
+            <div className="contact" data-reveal-stagger>
               <div>
                 <h2>{t("contact.title")}</h2>
                 <p>{t("contact.body")}</p>

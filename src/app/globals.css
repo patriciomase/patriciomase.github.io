@@ -28,6 +28,10 @@
   --radius: 10px;
   --radius-lg: 14px;
   --ease: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Same duration-plus-easing shorthand as --ease, but slower and eased
+     right out, for things entering the page rather than reacting to a
+     pointer. */
+  --reveal-ease: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -1152,6 +1156,30 @@ footer.bordered {
 
   .btn {
     width: 100%;
+  }
+}
+
+/* Sections rise into place as they scroll into view. ScrollReveal adds
+ * .is-revealed and never removes it, so the hidden starting state has to be
+ * conditional on scripting: with JS off, the observer never runs and this
+ * would leave a blank page.
+ *
+ * The motion is on `translate`, not `transform`: the cards and buttons here
+ * already animate `transform` on hover, and the two properties compose rather
+ * than overwrite each other. Using `transform` for both would mean a revealed
+ * card's hover lift fighting whatever the reveal left behind. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 0;
+    translate: 0 10px;
+    transition: opacity var(--reveal-ease), translate var(--reveal-ease);
+  }
+
+  [data-reveal].is-revealed,
+  [data-reveal-stagger] > .is-revealed {
+    opacity: 1;
+    translate: none;
   }
 }
 
