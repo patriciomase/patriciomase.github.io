@@ -211,9 +211,14 @@ npx lighthouse http://localhost:3000 \
   --output=html --output-path=/tmp/lh-<phase>.html --view
 ```
 
-**Baseline first:** before phase 1, run the build + Lighthouse on `master`
-and record performance, accessibility, CLS, LCP and total JS transferred in
-this file. Each phase is compared against it.
+**Baseline** (measured on the pre-rebrand code, production build, Lighthouse mobile):
+
+| URL | Perf | A11y | LCP | CLS | TBT | Script KB (gzip) |
+| --- | --- | --- | --- | --- | --- | --- |
+| `/` | 94 | 100 | 3.1 s | 0 | 40 ms | 291 |
+| `/?motion=full` | 95 | 100 | 3.0 s | 0 | 40 ms | 291 |
+
+Each phase is compared against it.
 
 **Checklist per phase** (on the production build):
 1. `tsc` and `next build` pass.
