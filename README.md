@@ -13,6 +13,11 @@ markup is preserved in this repo's history at commit `8e62579`.
 - Plain CSS in `src/styles/`, no framework: `tokens.css` (palette, fonts, the
   `--heat` property), `base.css` (chrome and shared forge primitives),
   `home.css`, `blog.css`
+- three.js (hero gear scene) and GSAP + ScrollTrigger (scroll choreography) on
+  the homepage only. Both load after first paint, and only for the "full"
+  motion tier (`src/lib/motionTier.ts`). Reduced motion, data saver or no
+  WebGL2 gets the static poster instead. `?motion=static` / `?motion=full`
+  force a tier for testing.
 - Clerk (Vercel Marketplace integration) on the `/a` admin panel only
 
 ## Local development

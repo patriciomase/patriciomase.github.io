@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { whenIdle } from "@/lib/idle";
 import { useLanguage } from "../LanguageProvider";
 import { useMotion } from "../forge/MotionProvider";
 import { Kicker } from "./Kicker";
@@ -11,6 +12,7 @@ export function Hero() {
   const { t } = useLanguage();
   const { tier, setAmbientSource } = useMotion();
   const stageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   /* Embers rise off the gear side of the stage while the hero is on screen. */
   useEffect(() => {
@@ -30,10 +32,35 @@ export function Hero() {
     };
   }, [tier, setAmbientSource]);
 
+  /* The three.js scene: loaded after idle, never on the static tier. The
+     poster stays underneath until the first frame is drawn. */
+  useEffect(() => {
+    const stage = stageRef.current;
+    const canvas = canvasRef.current;
+    if (tier !== "full" || !stage || !canvas) return;
+
+    let destroy: (() => void) | undefined;
+    let cancelled = false;
+    const cancelIdle = whenIdle(() => {
+      import("@/components/forge/heroScene")
+        .then((m) => {
+          if (!cancelled) destroy = m.mountHeroScene(canvas, stage);
+        })
+        .catch(() => {});
+    });
+
+    return () => {
+      cancelled = true;
+      cancelIdle();
+      destroy?.();
+    };
+  }, [tier]);
+
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-stage" ref={stageRef} aria-hidden="true">
         <HeroPoster />
+        {tier === "full" ? <canvas ref={canvasRef} /> : null}
       </div>
       <div className="wrap hero-copy">
         <Kicker index="01">{t("kicker.workshop")}</Kicker>
