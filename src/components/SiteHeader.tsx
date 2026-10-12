@@ -9,8 +9,8 @@ type NavLink = { href: string; labelKey: Parameters<ReturnType<typeof useLanguag
 /** The portfolio's in-page anchors; the blog pages get a shorter set. */
 const PORTFOLIO_LINKS: NavLink[] = [
   { href: "/#work", labelKey: "nav.work" },
+  { href: "/#about", labelKey: "nav.process" },
   { href: "/#experience", labelKey: "nav.experience" },
-  { href: "/#about", labelKey: "nav.about" },
   { href: "/blog", labelKey: "nav.blog" },
   { href: "/#contact", labelKey: "nav.contact" },
 ];
