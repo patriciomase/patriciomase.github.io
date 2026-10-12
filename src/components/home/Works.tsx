@@ -1,11 +1,13 @@
 "use client";
 
 import { useLanguage } from "../LanguageProvider";
+import { useMotion } from "../forge/MotionProvider";
 import { Kicker } from "./Kicker";
 import { WORK_CARDS, textOf } from "./data";
 
 export function Works() {
   const { t } = useLanguage();
+  const { burst } = useMotion();
 
   return (
     <section id="work" data-seam>
@@ -19,7 +21,14 @@ export function Works() {
         </div>
         <div className="works">
           {WORK_CARDS.map((card) => (
-            <article className="work-card plate heatable" key={card.title} data-card>
+            <article
+              className="work-card plate heatable"
+              key={card.title}
+              data-card
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") burst(event.clientX, event.clientY, 0.35);
+              }}
+            >
               <div className="card-top">
                 <span className="tag">{t(card.tag)}</span>
                 {card.own ? <span className="maker-stamp">{t("work.ownMark")}</span> : null}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContact, type ContactState } from "@/app/actions";
 import { useLanguage } from "./LanguageProvider";
@@ -22,9 +22,15 @@ function SubmitButton() {
  * Replaces the static site's mailto: button, which needed a configured mail
  * client to do anything and left no record of who wrote in.
  */
-export function ContactForm() {
+export function ContactForm({ onSent }: { onSent?: () => void }) {
   const { locale, t } = useLanguage();
   const [state, formAction] = useActionState(submitContact, INITIAL);
+
+  /* useActionState hands back a new state object per submission, so this
+     fires once for each successful send. */
+  useEffect(() => {
+    if (state.status === "success") onSent?.();
+  }, [state, onSent]);
 
   return (
     <form className="contact-form" action={formAction}>
