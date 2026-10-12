@@ -1,6 +1,7 @@
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { MotionProvider } from "./forge/MotionProvider";
+import { ForgeMotionMount } from "./forge/ForgeMotionMount";
 import { Hero } from "./home/Hero";
 import { Process } from "./home/Process";
 import { Works } from "./home/Works";
@@ -12,6 +13,7 @@ import { Commission } from "./home/Commission";
 export function PortfolioPage() {
   return (
     <MotionProvider>
+      <ForgeMotionMount />
       <SiteHeader />
       <main id="top">
         <Hero />
