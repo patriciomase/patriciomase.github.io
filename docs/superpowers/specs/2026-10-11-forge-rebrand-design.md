@@ -220,6 +220,30 @@ npx lighthouse http://localhost:3000 \
 
 Each phase is compared against it.
 
+**Results** (after Task 7, same method, two runs each where they differed):
+
+| URL | Perf | A11y | LCP | CLS | TBT | Script KB (gzip) |
+| --- | --- | --- | --- | --- | --- | --- |
+| `/` | 88–89 | 100 | 3.5 s | 0 | 140–190 ms | 297 |
+| `/?motion=full` | 84 | 100 | 3.5 s | 0 | 300 ms | 480 |
+| article | 85–88 | 100 | 3.7–4.2 s | 0 | 80–90 ms | 306 |
+
+Budgets: CLS 0 and a11y 100 are met everywhere; JS stays inside the +200 KB
+allowance (+189 KB on the full tier). Perf ≥ 90 is missed by 1–6 points:
+the new display fonts cost LCP (~+0.4 s) and the full tier's three.js start
+(~200 ms under throttling) costs TBT. Accepted by the owner on 2026-10-12,
+keeping the motion layer on idle rather than deferring it to first input.
+
+Deviations from the plan:
+- The work-card icons and experience logos load lazily (they competed with
+  the hero's fonts), and Big Shoulders keeps its `opsz` axis (dropping it was
+  worth ~1 point but loses the display cut).
+- Process step 1 strikes from its own trigger, so a nav jump to `#about`
+  doesn't land on an empty column.
+- Software WebGL (SwiftShader, llvmpipe) counts as no WebGL2: those browsers
+  get the static tier, and the scene refuses to start there even when forced.
+  Headless Chrome, and so Lighthouse, measures `/` on the static tier.
+
 **Checklist per phase** (on the production build):
 1. `tsc` and `next build` pass.
 2. Screenshots at 375 / 768 / 1280 px, EN and ES: `/`, `/blog`, one article.
