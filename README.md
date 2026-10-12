@@ -10,8 +10,9 @@ markup is preserved in this repo's history at commit `8e62579`.
 
 - Next.js 16 (App Router) / React 19 / TypeScript
 - Neon Postgres via `@neondatabase/serverless` + Drizzle ORM
-- Plain CSS (`src/app/globals.css`) — no framework, so the original design ports
-  across unchanged
+- Plain CSS in `src/styles/`, no framework: `tokens.css` (palette, fonts, the
+  `--heat` property), `base.css` (chrome and shared forge primitives),
+  `home.css`, `blog.css`
 - Clerk (Vercel Marketplace integration) on the `/a` admin panel only
 
 ## Local development

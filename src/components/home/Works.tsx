@@ -32,7 +32,7 @@ export function Works() {
                     next to the title it already names. */}
                 {card.icon ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img className="card-icon" src={card.icon} alt="" />
+                  <img className="card-icon" src={card.icon} alt="" loading="lazy" />
                 ) : null}
                 {t(card.title)}
               </h3>

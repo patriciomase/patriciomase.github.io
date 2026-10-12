@@ -32,7 +32,7 @@ export function BlogIndex({ posts }: { posts: PostCard[] }) {
         <div className="wrap-narrow post-list">
           {posts.length === 0 && <p>{t("blog.empty")}</p>}
           {posts.map((post) => (
-            <Link className="post-card" href={`/blog/${post.slug}`} key={post.slug}>
+            <Link className="post-card plate heatable" href={`/blog/${post.slug}`} key={post.slug}>
               {/* Cards show the plain ISO day, as the static site did. */}
               <span className="year">{post.publishedAt?.slice(0, 10)}</span>
               <h2>{locale === "es" ? post.titleEs : post.titleEn}</h2>
@@ -42,7 +42,7 @@ export function BlogIndex({ posts }: { posts: PostCard[] }) {
         </div>
       </main>
 
-      <SiteFooter bordered />
+      <SiteFooter />
     </>
   );
 }

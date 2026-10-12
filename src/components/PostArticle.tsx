@@ -82,7 +82,7 @@ export function PostArticle({
         </article>
       </main>
 
-      <SiteFooter bordered />
+      <SiteFooter />
     </>
   );
 }

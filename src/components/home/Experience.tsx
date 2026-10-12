@@ -29,7 +29,7 @@ export function Experience() {
                 {/* Plain <img>: tiny local logos layered over a text
                     fallback, so the optimizer buys nothing here. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.logo} alt="" />
+                <img src={item.logo} alt="" loading="lazy" />
               </span>
               <div>
                 <h3>{t(item.role)}</h3>

@@ -1,0 +1,812 @@
+/* Homepage sections: hero, process, works, capabilities, experience,
+ * commission, and the sparks overlay. */
+
+/* ---- hero ---- */
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - var(--header-h));
+  padding: 72px 0 104px;
+  overflow: hidden;
+}
+
+/* The stage sits behind the copy: the poster first, then the three.js canvas
+   over it once that has drawn a frame. A size container, so the poster can
+   be laid out in the same units the 3D camera frames. */
+.hero-stage {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  container-type: size;
+}
+
+.hero-stage canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero-stage.is-live canvas {
+  opacity: 1;
+}
+
+.hero-poster {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero-stage.is-live .hero-poster {
+  opacity: 0;
+}
+
+/* Forge glow, pooled where the gears sit. */
+.hero-poster::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(34% 46% at 78% 58%, rgba(255, 85, 0, 0.3), transparent 70%),
+    radial-gradient(18% 26% at 76% 64%, rgba(255, 140, 0, 0.24), transparent 70%),
+    radial-gradient(60% 50% at 85% 100%, rgba(196, 22, 28, 0.22), transparent 70%);
+}
+
+/* Matches the scene's desktop framing: the driver gear centred 79.7% across
+   and 56% down, at the size the 3D camera draws it (5.68 world units per
+   stage height). */
+.hero-gears {
+  position: absolute;
+  top: 8.5cqh;
+  left: calc(79.7cqw - 66.9cqh);
+  height: 84.5cqh;
+  aspect-ratio: 5.9 / 4.8;
+  filter: drop-shadow(0 0 22px rgba(255, 85, 0, 0.3));
+}
+
+/* Tall stages (phones, portrait tablets): the scene moves the train up and
+   right, shrunk to 0.62. */
+@container (max-aspect-ratio: 9 / 10) {
+  .hero-gears {
+    top: -5.9cqh;
+    left: calc(74.6cqw - 41.5cqh);
+    height: 52.4cqh;
+  }
+
+  .hero-poster::before {
+    background:
+      radial-gradient(60% 34% at 70% 22%, rgba(255, 85, 0, 0.3), transparent 70%),
+      radial-gradient(30% 20% at 72% 20%, rgba(255, 140, 0, 0.22), transparent 70%);
+  }
+}
+
+/* Keeps the copy legible over whatever the stage draws. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(18, 18, 18, 0.94) 0%, rgba(18, 18, 18, 0.8) 36%, rgba(18, 18, 18, 0) 68%),
+    linear-gradient(0deg, var(--iron) 0%, transparent 16%);
+  pointer-events: none;
+}
+
+.hero h1 {
+  max-width: 820px;
+}
+
+/* The words that are still hot. */
+.hot {
+  background: linear-gradient(180deg, var(--white-hot) 0%, var(--ember-2) 45%, var(--ember) 75%, var(--molten) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(255, 85, 0, 0.45));
+}
+
+.lead {
+  max-width: 600px;
+  margin: 28px 0 0;
+  color: var(--steel-bright);
+  font-size: clamp(17px, 2.2vw, 20px);
+  line-height: 1.55;
+}
+
+/* ---- process ---- */
+.process {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: 56px;
+}
+
+.process-intro > p {
+  max-width: 46ch;
+  margin: 20px 0 0;
+  color: var(--steel-bright);
+}
+
+/* The portrait as a forged plate, graded towards ember so the café greens
+   don't fight the palette. Warming it (hover) brings some colour back. */
+.portrait-plate {
+  width: min(100%, 300px);
+  margin: 32px 0 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+
+.portrait-plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(calc(1 - var(--heat) * 0.7)) contrast(1.08) brightness(0.9);
+}
+
+.portrait-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(170deg, rgba(255, 140, 0, 0.5), rgba(255, 85, 0, 0.6) 60%, rgba(196, 22, 28, 0.7));
+  mix-blend-mode: color;
+  opacity: calc(0.55 - var(--heat) * 0.35);
+  pointer-events: none;
+}
+
+.portrait-plate::after {
+  z-index: 3;
+}
+
+.portrait-plate figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  padding: 28px 14px 12px;
+  background: linear-gradient(transparent, rgba(12, 12, 12, 0.85));
+  color: var(--steel-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.process-track {
+  position: relative;
+  padding-left: 40px;
+}
+
+/* The rail the steps hang on. Its fill glows down it like hot iron: the
+   scroll choreography drives --rail (0–1); without it the rail is full. */
+.process-rail {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 12px;
+  width: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--seam);
+}
+
+.process-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--white-hot), var(--ember-2) 30%, var(--ember) 70%, var(--molten));
+  box-shadow: 0 0 12px var(--ember);
+  transform: scaleY(var(--rail, 1));
+  transform-origin: top center;
+}
+
+.process-steps {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.process-step {
+  padding: 22px 24px 24px;
+}
+
+/* Sits on the rail: 13.5px from the track edge, minus the 40px gutter and
+   half its own width. */
+.step-node {
+  position: absolute;
+  top: 30px;
+  left: -32px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--heat-color, var(--seam-strong));
+  box-shadow: 0 0 0 3px var(--iron), 0 0 calc(var(--heat) * 16px) var(--ember);
+}
+
+.step-index {
+  color: var(--ember);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.process-step h3 {
+  margin: 6px 0 8px;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.process-step p {
+  margin: 0;
+  color: var(--steel-bright);
+  font-size: 15.5px;
+}
+
+/* ---- works ---- */
+.works {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.work-card {
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+}
+
+/* Keep an odd final card from leaving an empty half-row. */
+.work-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.work-card:last-child:nth-child(odd) > p {
+  max-width: 720px;
+}
+
+.card-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.tag,
+.status,
+.maker-stamp {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tag {
+  padding: 4px 9px;
+  border: 1px solid var(--seam-strong);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--steel-bright);
+}
+
+.maker-stamp {
+  padding: 3px 8px;
+  border: 1px dashed rgba(255, 140, 0, 0.5);
+  border-radius: 2px;
+  color: var(--ember-2);
+  rotate: -2deg;
+}
+
+/* Status: ongoing work is still hot, recent work has cooled. */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  color: var(--steel);
+}
+
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4a4f57;
+}
+
+.status.is-hot {
+  color: var(--ember-2);
+}
+
+.status.is-hot::before {
+  background: var(--ember);
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.15), 0 0 10px var(--ember);
+}
+
+.work-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-size: 30px;
+  line-height: 1;
+}
+
+/* Height-driven so the mark keeps its own aspect ratio. */
+.card-icon {
+  flex: none;
+  width: auto;
+  height: 22px;
+}
+
+.work-card > p {
+  margin: 0;
+  color: var(--steel-bright);
+  font-size: 15px;
+}
+
+/* Spec plate: the card's facts as stamped label/value rows. */
+.work-card > .spec-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 12px;
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.spec-label::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--seam);
+}
+
+.spec {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 16px;
+}
+
+.spec dt {
+  padding-top: 2px;
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.spec dd {
+  margin: 0;
+  color: var(--ash);
+  font-size: 14px;
+}
+
+.card-link {
+  align-self: flex-end;
+  margin-top: auto;
+  padding-top: 20px;
+  color: var(--ember-2);
+  font-family: var(--mono);
+  font-size: 13px;
+  transition: color var(--ease);
+}
+
+.card-link::after {
+  content: " ↗";
+}
+
+.card-link:hover {
+  color: var(--white-hot);
+}
+
+/* ---- capabilities ---- */
+.capabilities {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.capability {
+  grid-column: span 2;
+  padding: 24px 24px 28px;
+}
+
+.capability:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+/* An edge along the bottom that glows with the block's heat. */
+.capability::before {
+  content: "";
+  position: absolute;
+  right: 24px;
+  bottom: -1px;
+  left: 24px;
+  height: 2px;
+  background: var(--heat-color, var(--seam-strong));
+  box-shadow: 0 0 calc(var(--heat) * 14px) var(--ember);
+}
+
+.capability-index {
+  color: var(--ember);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.capability h3 {
+  margin: 10px 0 8px;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.capability p {
+  margin: 0;
+  color: var(--steel-bright);
+  font-size: 15px;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.tools-label {
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tool-marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Stamped into the metal: dark above, a faint lit lip below. */
+.tool-mark {
+  padding: 6px 12px;
+  border: 1px solid var(--seam-strong);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #202020, #161616);
+  color: #9aa3ae;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ---- experience ---- */
+.marks {
+  position: relative;
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The steel bar the hallmarks are struck along, centred on them. */
+.marks::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 25px;
+  width: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #2b2f35, #6b737e 45%, #2b2f35);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.mark-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--seam);
+}
+
+.mark-row:first-child {
+  border-top: 1px solid var(--seam);
+}
+
+.hallmark {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border: 1px solid #0a0a0a;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, #2c2f34, #18191c);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 3px var(--iron),
+    0 0 0 4px var(--heat-color, var(--seam-strong));
+  color: var(--steel);
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* Logos read as stamped metal until the row is warmed. */
+.hallmark img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  object-fit: contain;
+  background: #e9e6e0;
+  filter: grayscale(calc(1 - var(--heat))) contrast(1.1);
+}
+
+.hallmark.dark img {
+  background: #141518;
+}
+
+.mark-row h3 {
+  margin: 0 0 2px;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.mark-row p {
+  margin: 0;
+  color: var(--steel);
+  font-size: 15px;
+}
+
+.mark-date {
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- commission ---- */
+.commission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: start;
+  gap: 48px;
+}
+
+.commission-intro > p {
+  max-width: 52ch;
+  margin: 20px 0 0;
+  color: var(--steel-bright);
+}
+
+.work-order {
+  padding: 28px;
+}
+
+.work-order-head {
+  margin: 0 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--seam-strong);
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.work-order-head::before {
+  content: "● ";
+  color: var(--ember);
+}
+
+.contact-form {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--seam-strong);
+  border-radius: var(--radius);
+  background: var(--iron-deep);
+  color: var(--ash);
+  font-family: var(--sans);
+  font-size: 15px;
+  letter-spacing: normal;
+  text-transform: none;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border-color: #50555c;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--ember);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 0 0 3px rgba(255, 85, 0, 0.18),
+    0 0 18px -4px rgba(255, 85, 0, 0.6);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #5d636b;
+}
+
+.form-status {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-status.ok {
+  color: #ffb35c;
+}
+
+.form-status.error {
+  color: #ff7a6b;
+}
+
+/* The success weld (Task 5 mounts it): a hot bead runs once round the work
+   order, then cools. The mask leaves only a 2px border ring visible. */
+.weld-ring {
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from -90deg,
+    var(--molten) 0deg,
+    var(--ember) calc(var(--weld) - 10deg),
+    var(--white-hot) var(--weld),
+    transparent var(--weld)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation:
+    weld-run 1.4s cubic-bezier(0.6, 0, 0.4, 1) forwards,
+    weld-cool 2.4s 1.4s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes weld-run {
+  from {
+    --weld: 0deg;
+  }
+  to {
+    --weld: 360deg;
+  }
+}
+
+@keyframes weld-cool {
+  to {
+    opacity: 0.25;
+  }
+}
+
+/* ---- sparks ---- */
+.sparks-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 860px) {
+  .hero {
+    align-items: flex-end;
+    min-height: auto;
+    padding: 34vh 0 64px;
+  }
+
+  .hero::after {
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.15) 0%, rgba(18, 18, 18, 0.82) 40%, var(--iron) 100%);
+  }
+
+  .process,
+  .commission {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .works {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilities {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .capability,
+  .capability:nth-child(n + 4) {
+    grid-column: span 1;
+  }
+
+  .capability:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .mark-row {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .mark-date {
+    grid-column: 2;
+  }
+
+  .work-order {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 520px) {
+  .capabilities {
+    grid-template-columns: 1fr;
+  }
+
+  .spec-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}

@@ -2,15 +2,12 @@
 
 import { useLanguage } from "./LanguageProvider";
 
-/**
- * `bordered` draws the top rule the blog pages need. The homepage's final
- * section already ends in one, so it would double up there.
- */
-export function SiteFooter({ bordered = false }: { bordered?: boolean }) {
+/** Every page ends on the same hairline seam, drawn by `footer` in base.css. */
+export function SiteFooter() {
   const { t } = useLanguage();
 
   return (
-    <footer className={bordered ? "bordered" : undefined}>
+    <footer>
       <div className="wrap">
         <div className="footer-inner">
           <span>© 2026 Patricio Gabriel Maseda</span>

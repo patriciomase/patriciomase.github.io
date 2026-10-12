@@ -1,0 +1,336 @@
+/* Blog index and articles. Same palette and type as the homepage, none of its
+ * motion: this is the one part of the site meant to be read for ten minutes
+ * rather than scanned. */
+
+/* ---- article ---- */
+.post-header {
+  padding: 72px 0 30px;
+}
+
+.post-header h1 {
+  font-size: clamp(36px, 5.4vw, 60px);
+  line-height: 1;
+}
+
+.post-meta {
+  margin-top: 20px;
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.post-lead {
+  margin: 22px 0 0;
+  color: var(--steel-bright);
+  font-size: clamp(17px, 2.2vw, 20px);
+  line-height: 1.55;
+}
+
+.post-hero {
+  margin-bottom: 40px;
+}
+
+.post-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--seam-strong);
+  border-radius: var(--radius-lg);
+  background: var(--iron-raised);
+  box-shadow: var(--plate-shadow);
+}
+
+/* Let the banner breathe past the reading column on a large screen, sized in
+   px so 100vw's scrollbar doesn't reintroduce sideways scroll. (960 - 780) / 2
+   keeps it centred on the 780px column. */
+@media (min-width: 1040px) {
+  .post-hero img {
+    width: 960px;
+    max-width: none;
+    margin-left: -90px;
+  }
+}
+
+.post-body {
+  padding-bottom: 96px;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.post-body h2 {
+  margin: 56px 0 16px;
+  font-size: clamp(28px, 3.4vw, 36px);
+  line-height: 1.05;
+}
+
+.post-body h3 {
+  margin: 38px 0 12px;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.post-body p {
+  margin: 0 0 22px;
+}
+
+.post-body ul,
+.post-body ol {
+  margin: 0 0 22px;
+  padding-left: 24px;
+}
+
+.post-body li {
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+.post-body li::marker {
+  color: var(--ember);
+}
+
+.post-body strong {
+  color: #fff6ea;
+  font-weight: 650;
+}
+
+/* Links in article prose. Scoped to `.post-prose` -- the rendered body --
+   rather than `.post-body`, so the "All posts" link after the article keeps
+   its own styling. */
+.post-prose a {
+  color: var(--ember-2);
+  font-weight: 550;
+  border-bottom: 1px solid rgba(255, 140, 0, 0.4);
+  transition: border-color var(--ease), background var(--ease);
+}
+
+.post-prose a:hover {
+  border-bottom-color: var(--ember);
+  background: rgba(255, 85, 0, 0.08);
+}
+
+/* Code. Wide blocks scroll inside themselves -- the page body must never
+   scroll horizontally on a phone. */
+.post-body pre {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-lg);
+  background: var(--iron-raised);
+  box-shadow: var(--plate-shadow);
+  color: #dfe7f0;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: auto;
+}
+
+.post-body code {
+  padding: 2px 6px;
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: 3px;
+  background: #1f1a16;
+  color: #ffb877;
+  font-family: var(--mono);
+  font-size: 0.86em;
+}
+
+.post-body pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Shiki emits `pre.shiki` with the token colours inline. Its own background
+   is stripped by a transformer so the block keeps the plate. */
+.post-body pre.shiki {
+  color: #dfe7f0;
+}
+
+/* `:::callout` renders as <aside>: a plate with a hot edge. */
+.post-body aside,
+.post-body .callout {
+  margin: 0 0 24px;
+  padding: 20px 22px;
+  border: 1px solid var(--seam-strong);
+  border-left: 3px solid var(--ember);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: var(--iron-raised);
+  box-shadow: inset 6px 0 14px -10px rgba(255, 85, 0, 0.8), var(--plate-shadow);
+}
+
+.post-body aside p:last-child,
+.post-body .callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Section break: a short weld seam. */
+.post-body hr {
+  height: 3px;
+  margin: 48px 0;
+  border: 0;
+  background: radial-gradient(ellipse 3px 1.5px at 50% 50%, var(--white-hot), var(--ember-2) 55%, var(--molten) 90%, transparent)
+    0 50% / 6px 3px repeat-x;
+  mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+}
+
+/* Quotation. Deliberately quieter than the callout -- no plate, no glow --
+   so a quote and an aside don't compete for the same weight. */
+.post-body blockquote {
+  margin: 0 0 24px;
+  padding: 6px 0 6px 24px;
+  border-left: 3px solid var(--seam-strong);
+  color: var(--steel-bright);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.post-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Attribution: `<cite>` inside a quote reads as a name, not as a title. */
+.post-body blockquote cite {
+  display: block;
+  margin-top: 12px;
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-style: normal;
+  letter-spacing: 0.06em;
+}
+
+/* Images. The max-width is not cosmetic: without it a wide screenshot widens
+   the whole document and the page scrolls sideways on a phone. Covers and
+   screenshots are content, so they're framed but never colour-graded. */
+.post-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 24px;
+  border: 1px solid var(--seam-strong);
+  border-radius: var(--radius-lg);
+  background: var(--iron-raised);
+}
+
+.post-body figure {
+  margin: 0 0 28px;
+}
+
+.post-body figure img {
+  margin-bottom: 12px;
+}
+
+.post-body figcaption {
+  color: var(--steel);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Opt-in `#wide`: a screenshot spills past the reading column above 1040px.
+   Sized in px, not vw, for the scrollbar reason above. */
+@media (min-width: 1040px) {
+  .post-body img.wide,
+  .post-body figure.wide img {
+    width: 960px;
+    max-width: none;
+    margin-left: -90px;
+  }
+}
+
+.post-body .table-scroll {
+  overflow-x: auto;
+  margin: 0 0 24px;
+}
+
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.post-body th,
+.post-body td {
+  padding: 11px 13px;
+  border-bottom: 1px solid var(--seam);
+  text-align: left;
+  vertical-align: top;
+}
+
+.post-body th {
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---- index ---- */
+.post-list {
+  display: grid;
+  gap: 18px;
+  padding: 56px 0 96px;
+}
+
+.post-card {
+  display: block;
+  padding: 28px 30px;
+}
+
+.post-card .year {
+  color: var(--ember-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+.post-card h2 {
+  margin: 10px 0;
+  font-size: 30px;
+  line-height: 1.05;
+}
+
+.post-card p {
+  margin: 0;
+  color: var(--steel-bright);
+  font-size: 15.5px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 48px;
+  color: var(--ember-2);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--ease);
+}
+
+.back-link:hover {
+  color: var(--white-hot);
+}
+
+@media (max-width: 640px) {
+  .post-header {
+    padding: 44px 0 22px;
+  }
+
+  .post-body {
+    font-size: 17px;
+  }
+
+  .post-body h2 {
+    margin-top: 44px;
+  }
+
+  .post-card {
+    padding: 24px;
+  }
+}
