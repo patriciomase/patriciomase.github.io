@@ -226,18 +226,15 @@ this file. Each phase is compared against it.
    in phase 3+); delete it afterwards in `/a`.
 6. `/a` renders unchanged with its own stylesheet.
 
-**Open decision: analytics while testing.** Local runs use `.env.local`, so
-page views from `localhost` reach PostHog and `/api/view` → `page_views`
-(likely the production DB), and the test message lands in production
-`messages`. Recommended: a two-line guard that skips PostHog init and view
-tracking when `location.hostname` is `localhost`/`127.0.0.1`, shipped as
-phase 0. Alternative: accept the noise.
+**Analytics while testing (decided: accept the noise).** Local runs use
+`.env.local`, so localhost page views reach PostHog and `page_views`, and the
+test message lands in `messages`. No guard will be added.
 
 ## 6. Delivery phases
 
 Each phase leaves the site fully working and is committed separately.
 
-0. (If approved) localhost analytics guard. Baseline Lighthouse on `master`.
+0. Baseline Lighthouse on `master`.
 1. Tokens, type, textures, base components, header/footer, blog styling.
    CSS split.
 2. Homepage restructure into section components + all new copy (EN + ES).
