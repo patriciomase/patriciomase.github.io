@@ -23,6 +23,7 @@ vercel env pull .env.local   # Clerk keys + ADMIN_EMAILS, for the /a panel
 npm run db:migrate     # apply schema
 npm run publish        # load content/posts/*.md into the database
 npm run dev
+npm test               # unit tests (node:test via tsx)
 ```
 
 ## Database
